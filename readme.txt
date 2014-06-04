@@ -2,10 +2,11 @@
 
    Meshr is a free open source software for creating and popularization
    of mesh networks. The main goals of Meshr are to make Internet
-   available to as much number of people as possible all over the world
-   and to make communication between people free and depend only on mesh
-   network participents. To reach this goal it makes available easy to
-   use cross-platform versions of Freifunk Openwrt firmwares for
+   available to as much number of people as possible all over the world,
+   to make communication between people free and depend only on mesh
+   network members and to make free and accurate Wi-Fi positioning. To
+   reach these goals it makes available easy to use zero-configuration
+   cross-platform versions of Freifunk Openwrt firmwares for
    international community. Meshr is an open and independent project.
    Everyone is welcome to contribute.
    
@@ -20,14 +21,6 @@
    For general questions about Meshr see the communication page or ask at
    the support desk.
 
-### What is Meshr? 
-   
-   Meshr.Net is:
-     * feature-rich and extensible;
-     * scalable and suitable for both small and large networks;
-     * available in your language;
-     * simple to install, working on most hardware/software combinations.
-
 ### Installation requirements
    
    Meshr 0.1 requires Windows XP sp3 or later.
@@ -36,6 +29,12 @@
      * Windows XP sp3
      * Windows 7 sp1
      * Windows 8.1
+       
+  Notes
+  
+     * Wireless network adapter should be turned on.
+     * Windows 8: Wireless devices should be turned on (Click "Logo
+       key"+C : Settings -> Change PC Settings -> Wireless -> turn on)
        
    Security reminder: Meshr requires Administrator privileges to install.
    
@@ -59,21 +58,21 @@
           +  %meshr%/etc/wlan/ folder contains *.xml files for Windows
             wireless profile configuration settings and *.wmic files for
             ip configuration settings.
-          +  %meshr%/etc/wifi file contains settings for default wireless
-            adapter
+          +  %meshr%/etc/wifi.txt file contains settings for default
+            wireless adapter
 
 ### Meshr feature list
 
   Automatic configuration
   
    Meshr runs automatic configuration script during installation (it
-   is %meshr%/defaults.bat). More info
+   is %meshr%/defaults.bat batch file). More info
    
   Automatic updates
   
-   Meshr does checks for updates every 24 hours. It checks last version
-   tag in git and downloads it if it is new. It also updates ipkg
-   software list.
+   Meshr does checks for updates every 24 hours (it is %meshr%/update.bat
+   batch file). It checks last version tag in git and downloads it if it
+   is new. It also updates ipkg software list.
 
 ### How it works?
        
@@ -86,14 +85,14 @@ Before first use
     2. You get IP-address in 10.177.0.0/16 range from meshr.net while
        installation. IP is generated automatically in
        10.177.128.1-10.177.253.255 range if there is no Internet access.
-    3. Meshr is looking for known mesh networks that are available. If it
-       finds any it configures network settings to create new node of
-       this network. If there is no known networks then it configures
-       network settings to create new node of meshr network.
+    3. Meshr is looking for known mesh networks that are available in the
+       air. If it finds any it configures meshr settings to create new
+       node of this network. If there is no known networks then it
+       configures meshr settings to create new node of meshr.net network.
        
 Everyday use
 
-   Meshr is monitoring status of your wireless node (in
+   Meshr is monitoring status of your wireless adapter (in
    "%meshr%/lib/watchdog.bat")
     1. If your computer has Internet access and your wireless adapter is
        unused then meshr creates ad-hoc network and waits for users to
@@ -138,10 +137,10 @@ Everyday use
 
 ### Upgrading
 
-   Run "meshr-update" link from start menu or update.bat from
-   installation folder (default: C:\opt\meshr) to update manually. Meshr
-   does automatic check and update every 24h.
+   PHP Fatal error: Maximum execution time of 60 seconds exceeded in
+   D:\inetpub\vhosts\meshr.net\httpdocs\includes\db\DatabaseMysqli.php on
+   line 39
 
 ### Author ###
 
-* Yury Popov (<meshr.net[a]googlemail.com>)
+* Yury Popov (<meshr.net[at]googlemail.com>)
