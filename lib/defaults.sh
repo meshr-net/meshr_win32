@@ -15,7 +15,7 @@ if [ 1 ]; then
   myip=`cat $meshr/tmp/myip | grep 'My IP is: [0-9]' | sed 's/.\+My IP is: \([0-9.]\+\).\+/\1/g'`
   if [  -f $meshr/tmp/bssids.txt ] ; then  
     echo { \"wifiAccessPoints\": [> $meshr/tmp/json.txt
-    grep "MAC Address" $meshr/tmp/bssids.txt | sed 's/.*:..\(..-..-..-..-..-..\)$/{"macAddress": "\1"},/g' >>$meshr/tmp/json.txt
+    grep "MAC Address.*:.*-" $meshr/tmp/bssids.txt | sed 's/.*:..\(..-..-..-..-..-..\)$/{"macAddress": "\1"},/g' >>$meshr/tmp/json.txt
     echo {\"macAddress\": \"00-00-00-00-00-00\"}]}>>$meshr/tmp/json.txt
     [ -f $meshr/tmp/latlon.txt ]  && rm $meshr/tmp/latlon.txt
     sudo -geoloc

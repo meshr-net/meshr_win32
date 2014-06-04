@@ -783,7 +783,7 @@ start() {
 			OLSRD_CONFIG_FILE=$meshr/var/etc/olsrd.conf
 		fi
 	fi
-
+  return 0
 	[ -z "$OLSRD_CONFIG_FILE" ] && return 1
 
 	local bindv6only='0'

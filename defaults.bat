@@ -1,3 +1,5 @@
+reg query HKLM\SOFTWARE\Microsoft\Cryptography /v MachineGuid | findstr MachineGuid > tmp\mguid.txt
+
 rem check admin rights
 net session >nul 2>&1 || ( 
   %meshr:/=\%\bin\sudo /b /c %0 %*

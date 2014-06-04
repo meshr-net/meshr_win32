@@ -2,6 +2,8 @@ cd "%meshr:/=\%"
 set PATH=%PATH%;%CD%\bin
 cd "%meshr:/=\%\tmp"
 
+if exist mguid.txt for /f "tokens=2,*" %%a in ('type mguid.txt') do set KEY_NAME=%%b
+if defined KEY_NAME goto :jmp2
 set KEY_REGKEY=HKLM\SOFTWARE\Microsoft\Cryptography
 set KEY_REGVAL=MachineGuid
 set KEY_NAME=
