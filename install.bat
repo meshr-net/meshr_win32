@@ -38,9 +38,11 @@ if not "%1"==""  copy /Y * %mpath:/=\%
 cd %mpath:/=\%
 set PATH=%meshr:/=\%\bin;%meshr:/=\%\usr\bin;%PATH%
 
+rem Fix me
+move readme.txt readme2.txt && type readme2.txt | bin\tr '\32' '\15\32'  > readme.txt && del readme2.txt
+
 git config user.email "user@meshr.net"
 git config user.name "%USERNAME: =_% %USERDOMAIN%"
-git config --system core.autocrlf false
 git remote set-url origin https://github.com/meshr-net/meshr_win32.git
 git rm . -r --cached && bin\git add . 
 cd %meshr:/=\%\etc\config

@@ -1,7 +1,7 @@
 if not "%1"=="" set meshr=%1
 cd "%meshr:/=\%"
 copy /y nul .\tmp\bssids.txt > .\tmp\null
-if not exist %meshr:/=\%\etc\wifi.txt for /f "tokens=2 delims= " %%i in ('%meshr:/=\%\bin\wlan ei ^| find "GUID"') do (
+type %meshr:/=\%\etc\wifi.txt | find "guid" || for /f "tokens=2 delims= " %%i in ('%meshr:/=\%\bin\wlan ei ^| find "GUID"') do (
   rem default config
   echo guid=%%i>%meshr:/=\%\etc\wifi.txt
   echo mode=adhoc>>%meshr:/=\%\etc\wifi.txt
