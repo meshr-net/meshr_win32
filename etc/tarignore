@@ -1,0 +1,4 @@
+init.d/*
+rc.common
+uci-defaults/*
+config/profile_*

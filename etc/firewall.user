@@ -1,0 +1,16 @@
+cd "%meshr%"
+rem LUCI
+rem FOR /F "tokens=* USEBACKQ" %%F IN (`.\bin\uci get lucid.http.address`) DO SET ports=%%F
+.\bin\uci get lucid.http.address > ports 
+rem .\bin\uci show olsrd | find "port" | .\bin\sed "s/.*port=//g" >> ports
+
+rem FOR /F "tokens=* USEBACKQ" %%F IN (`.\bin\uci show olsrd | find "port" | .\bin\sed "s/.*port=//g"`) DO echo SET ports=%%F
+rem for /f "tokens=1,2* delims=<tab><space>" %i in ('%ports%') do echo %i
+for /F "tokens=1* delims=," %%i in (ports) do ( set name="block_%%i"
+  if 11==1 (
+    echo %name%
+    netsh advfirewall firewall show rule name=%name% || netsh advfirewall firewall add rule name=%name% dir=in localport=%%i protocol=TCP action=block
+  ) else (
+    netsh advfirewall firewall show rule name=%name% && netsh advfirewall firewall del rule name=%name%
+  )
+)

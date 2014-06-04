@@ -10,7 +10,7 @@ git pull origin master < NUL || (
   git config user.email "user@meshr.net"  
   git config user.name "%USERNAME% %USERDOMAIN%"  
   git config --unset http.proxy
-  git remote set-url origin https://github.com/meshr/meshr_x86
+  git remote set-url origin https://github.com/meshr-net/meshr_x86.git
   git commit -am "%USERNAME%.%USERDOMAIN% %DATE% %TIME%"
   git pull origin master < NUL > tmp\git.log || (
       grep "fatal: unable to access" tmp\git.log  && goto :ipkg

@@ -39,7 +39,7 @@ set PATH=%meshr:/=\%\bin;%meshr:/=\%\usr\bin;%PATH%
 
 git config user.email "user@meshr.net"
 git config user.name "%USERNAME: =_% %USERDOMAIN%"
-git remote set-url origin https://github.com/meshr/meshr_x86
+git remote set-url origin https://github.com/meshr-net/meshr_x86.git
 git rm . -r --cached && bin\git add . 
 cd %meshr:/=\%\etc\config
 git ls-files | tr '\n' ' ' | xargs git update-index --assume-unchanged 
