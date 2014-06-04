@@ -137,9 +137,9 @@ Everyday use
 
 ### Upgrading
 
-   PHP Fatal error: Maximum execution time of 60 seconds exceeded in
-   D:\inetpub\vhosts\meshr.net\httpdocs\includes\db\DatabaseMysqli.php on
-   line 39
+   Run "meshr-update" link from start menu or update.bat from
+   installation folder (default: C:\opt\meshr) to update manually. Meshr
+   does automatic check and update every 24h.
 
 ### Author ###
 
