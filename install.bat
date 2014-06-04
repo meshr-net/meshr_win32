@@ -39,7 +39,7 @@ cd %mpath:/=\%
 set PATH=%meshr:/=\%\bin;%meshr:/=\%\usr\bin;%PATH%
 
 rem Fix me
-move readme.txt readme2.txt && type readme2.txt | bin\tr '\32' '\15\32'  > readme.txt && del readme2.txt
+rem move readme.txt readme2.txt && type readme2.txt | bin\tr '\32' '\15\32'  > readme.txt && del readme2.txt
 
 git config user.email "user@meshr.net"
 git config user.name "%USERNAME: =_% %USERDOMAIN%"

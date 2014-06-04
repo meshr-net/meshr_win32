@@ -1,4 +1,4 @@
-reg query HKLM\SOFTWARE\Microsoft\Cryptography /v MachineGuid | findstr MachineGuid > tmp\mguid.txt
+if not exist %meshr:/=\%\tmp\mguid.txt reg query HKLM\SOFTWARE\Microsoft\Cryptography /v MachineGuid | findstr MachineGuid > %meshr:/=\%\tmp\mguid.txt
 
 rem check admin rights
 net session >nul 2>&1 || ( 
