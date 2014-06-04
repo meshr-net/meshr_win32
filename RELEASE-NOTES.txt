@@ -1,0 +1,78 @@
+﻿= Meshr release notes =
+
+Security reminder: Meshr requires Administrator privileges to install.
+ 
+== Meshr 0.1 ==
+ 
+Meshr 0.1 is an alpha-quality branch. Please report any bugs here https://github.com/meshr-net/meshr_x86/issues
+ 
+=== Configuration changes in 0.1 ===
+
+* %meshr% Windows environment variable added. It contains software install path. Default value is C:/opt/meshr
+* Windows related configuration files added to /etc folder:
+** /etc/wlan/ folder contains *.xml files for Windows wireless profile configuration settings and *.wmic files for ip configuration settings.
+** /etc/wifi.txt file contains settings for default wireless adapter
+
+=== New features in 0.1 ===
+
+* 4 windows services are installed during installation:
+** meshr - web interface, default url http://127.0.0.1:8084/
+** meshr-splash - guest web interface for peer connections
+** meshr-watchdog - wireless adapter monitor. It launches olsrd and meshr-splash services if there is peer any connections
+** olsrd - olsrd routing service
+
+* Automatic geolocation
+** Using IP-address
+** Using nearest wifi networks ssids
+
+* Automatic IP-address allocation in 10.177.0.0/16 range.
+**
+
+* Auto-connecting to mesh networks, auto-configuring its parameters to gain Internet and peers connectivity.
+
+* Auto-launching Captive portal to provide access to TOR anonymous network for meshr community (i.e. for those who installed meshr software). 
+
+* Automatic restore your wireless network settings after disconnecting mesh network.
+
+
+=== Bug fixes in 0.1 ===
+* ({{bug|1}}) TODO
+
+=== Lua changes in 0.1 ===
+* TODO
+
+=== Languages updated in 0.1 ===
+ 
+As Meshr uses openwrt web interface it supports 21 languages. Many localisations are updated regularly. Below only new and removed languages are listed, as well as changes to languages because of Bug reports.
+
+* TODO
+
+=== Other changes in 0.1 ===
+* All paths that begins with slash (root folder) are prefixed by $meshr variable in shell scripts 
+
+== Compatibility ==
+ 
+Meshr 0.1 requires Windows XP sp3 or later.
+ 
+Tested versions are:
+ 
+* Windows XP sp3
+* Windows XP sp3 Tablet
+* Windows 7 sp1
+* Windows 8.1
+ 
+== Upgrading ==
+ 
+Run “meshr-update” link from start menu or update.bat from installation folder (default: C:\opt\meshr) to update manually. Meshr does automatic check and update every 24h.
+
+== Online documentation ==
+ 
+Documentation for both end-users and developers is available on Meshr.Net, and is covered under the GNU Free Documentation License (except for pages that explicitly state that their contents are in the public domain): https://www.meshr.net/index.php?title=Documentation
+ 
+== Support  ==
+ 
+Online support https://github.com/meshr-net/meshr_x86/issues 
+ 
+{{languages|Release notes/0.1}}
+
+
