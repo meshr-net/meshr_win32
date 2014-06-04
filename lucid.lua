@@ -3,7 +3,7 @@ if #rootfs > 0 then
   if string.match(... or "", "--splash") then
     smode = '/controller2/'
   end
-  hostos = 'winnt'
+  hostos = 'win32'
   package.path= rootfs .. '/usr/lib/lua/?.lua;' .. rootfs .. '/usr/lib/lua/?/init.lua;;'
   package.cpath= rootfs .. '/usr/lib/lua/?.so;;'
 end  

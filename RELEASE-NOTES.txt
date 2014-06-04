@@ -4,7 +4,7 @@ Security reminder: Meshr requires Administrator privileges to install.
  
 == Meshr 0.1 ==
  
-Meshr 0.1 is an alpha-quality branch. Please report any bugs here https://github.com/meshr-net/meshr_x86/issues
+Meshr 0.1 is an alpha-quality branch. Please report any bugs here https://github.com/meshr-net/meshr_win32/issues
  
 === Configuration changes in 0.1 ===
 
@@ -71,7 +71,7 @@ Documentation for both end-users and developers is available on Meshr.Net, and i
  
 == Support  ==
  
-Online support https://github.com/meshr-net/meshr_x86/issues 
+Online support https://github.com/meshr-net/meshr_win32/issues 
  
 {{languages|Release notes/0.1}}
 
