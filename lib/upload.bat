@@ -16,7 +16,7 @@ wmic nicconfig where SettingID="{%guid%}" get MACAddress /value | find "=" >> %m
 for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wifi.txt ^| find "MACAddress"') do set "%%f"
 :jmp2
 echo  -%MACAddress%-
-
+if not defined KEY_NAME set KEY_NAME=.%guid%
 cd "%meshr:/=\%/tmp"
 BluetoothView.exe /stext bt.txt
 WirelessNetConsole.exe > bssids.txt
