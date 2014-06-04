@@ -1,3 +1,10 @@
+rem check admin rights
+net session >nul 2>&1 || (
+  rem echo %1 | find ":" && %~dp0\bin\sudo /c %0 %* || %~dp0\bin\sudo /b /c %0 %*
+  %~dp0\bin\sudo /c %0 %*
+  goto :EOF
+)
+
 set PATH=%meshr:/=\%\bin;%meshr:/=\%\usr\bin;%PATH%
 cd %meshr:/=\%
 set GIT_SSL_NO_VERIFY=true
