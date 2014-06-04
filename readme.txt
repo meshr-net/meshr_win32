@@ -29,7 +29,7 @@
   Notes
   
      * Wireless network adapter should be turned on.
-     * Windows 8: Wireless devices should be turned on (Click "Logo
+     * Windows 8: Wireless devices should be turned on (click "Logo
        key"+C : Settings -> Change PC Settings -> Wireless -> turn on)
        
    Security reminder: Meshr requires Administrator privileges to install.
