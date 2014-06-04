@@ -26,8 +26,8 @@ wmic ENVIRONMENT CREATE NAME="meshr", VARIABLEVALUE="%meshr%" , username="NT AUT
 
 wmic nic where "Name like 'TAP-Win%%'" get NetConnectionID /value | find "=" || start "Installing TAP/TUN adapter" %CD%\bin\tap-windows.exe /S /SELECT_UTILITIES=1
 
-bin\git clone -b master meshr.bundle %1 || ( echo "can't clone"
-  bin\git clone -b master meshr.bundle
+bin\git clone -b release meshr.bundle %1 || ( echo "can't clone"
+  bin\git clone -b release meshr.bundle
   call bin\services.bat stop
   copy /Y "%mpath:/=\%\etc\config\*" meshr\etc\config
   xcopy /Y /C /E /H meshr %mpath:/=\%\ )
@@ -44,8 +44,8 @@ git rm . -r --cached && bin\git add .
 cd %meshr:/=\%\etc\config
 git ls-files | tr '\n' ' ' | xargs git update-index --assume-unchanged 
 cd %meshr:/=\%
-git reset --hard origin/master
-call lib\bssids.bat %meshr%
+git reset --hard origin/release
+call lib\bssids.bat %meshr% > tmp\bssids.log
 wlan sp %guid% etc/wlan/meshr.net.xml
 touch -am %meshr%/usr/lib/ipkg/lists/meshr
 
