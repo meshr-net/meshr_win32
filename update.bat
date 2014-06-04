@@ -29,7 +29,7 @@ git pull origin release < NUL || (
       git reset --merge  < NUL
       tar cf tmp/backup.tar --exclude-vcs --ignore-failed-read  --ignore-command-error -X etc/tarignore etc/* bin/DualServer.ini bin/BluetoothView.cfg 
       bin\git reset --hard origin/release < NUL || ( sudo cmd /c %meshr:/=\%\bin\services.bat stop
-        sudo -b cmd /c "cd %meshr% && bin\git reset --hard origin/release < NUL"
+        sudo -b cmd /c "cd %meshr% && bin\git reset --hard origin/release ^< NUL"
         sleep 9 )
       sudo tar xf tmp/backup.tar  -C . --overwrite --ignore-failed-read  --ignore-command-error
       sudo cmd /c %meshr:/=\%\bin\services.bat start
