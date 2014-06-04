@@ -1,5 +1,4 @@
 # Meshr.Net
-
    Meshr is a free open source software for creating and popularization
    of mesh networks. The main goals of Meshr are to make Internet
    available to as much number of people as possible all over the world,
@@ -11,15 +10,11 @@
    Everyone is welcome to contribute.
    
    Experimental software version for Windows is available now. It allows
-   to connect to Freifunk networks and meshr.net free Internet gateways
-   anonymized by TOR.
-   
-   Use the links below to explore the site contents. You'll find some
-   content translated into other languages, but the primary documentation
-   language is English.
-   
    For general questions about Meshr see the communication page or ask at
    the support desk.
+
+   Use the links below to download and install Meshr on Windows
+   http://meshr.net/index.php?title=Download
 
 ### Installation requirements
    
@@ -144,3 +139,5 @@ Everyday use
 ### Author ###
 
 * Yury Popov (<meshr.net[at]googlemail.com>)
+
+This file is generated automatically from http://Meshr.Net wiki pages
