@@ -153,7 +153,7 @@ set -x
       fi     
       cp -f $meshr/etc/DualServer $meshr/bin/DualServer.ini &&  sed -i "s/10.177.0.1/$ip4addr/g" $meshr/bin/DualServer.ini
       [ -f $meshr/etc/wlan/$ssid.wmic ] || ( cp $meshr/etc/wlan/meshr.net.wmic $meshr/etc/wlan/$ssid.wmic )
-      sed -i "s/IPAddress={.*}/IPAddress={\"$ip4addr\"/g" $meshr/etc/wlan/$ssid.wmic
+      sed -i "s/IPAddress=.*/IPAddress=$ip4addr/g" $meshr/etc/wlan/$ssid.wmic
       chmod 777 $meshr/etc/wlan/$ssid.wmic
       #TODO: check Internet; add to uci
       uci set wireless.$device\_iface.ip4addr=$ip4addr

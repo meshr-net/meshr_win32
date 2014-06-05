@@ -36,7 +36,7 @@ for /f "tokens=*" %%f in ('type %meshr:/=\%\bin\DualServer.ini ^| find "10.177."
 for /f "tokens=*" %%f in ('type %meshr:/=\%\tmp\curl.htm ^| head -n 1 ^| grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$"') do set newIP=%%f
 if defined newIP (
       if not "%IPAddress%"=="" if not "%newIP%"=="%IPAddress%" sed -i "s/%IPAddress%/%newIP%/g" %meshr%/bin/DualServer.ini
-      sed -i "s/IPAddress={.*}/IPAddress={""%newIP%""}/g" %meshr%/etc/wlan/meshr.net.wmic
+      sed -i "s/IPAddress=.*/IPAddress=%newIP%/g" %meshr%/etc/wlan/meshr.net.wmic
       chmod 777 %meshr%/etc/wlan/meshr.net.wmic
 )
 cd ..
