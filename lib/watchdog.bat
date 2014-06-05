@@ -31,8 +31,8 @@ IF NOT EXIST  %meshr:/=\%\var\run\wifi.txt (
     %bin%\ufind %meshr:/=\%\var\run\wifi-formed.txt -mmin +15 | find "wifi" && del %meshr:/=\%\var\run\wifi-formed.txt
     %bin%\ufind %meshr:/=\%\var\run\wifi-formed.txt -mmin +2 | find "wifi" && goto :CONTINUE
     %bin%\wlan conn %guid% %ssid% %mode% %ssid%-adhoc > tmp\conn.log 
-    ( type tmp\wlan.log  | find "is not correct" ) && %bin%\wlan conn %guid% %ssid% %mode% %ssid% >> tmp\conn.log
-    ( type tmp\wlan.log  | find "completed successfully" ) &&  echo %ssid%>%meshr:/=\%\var\run\wifi-formed.txt
+    ( type tmp\conn.log  | find "is not correct" ) && %bin%\wlan conn %guid% %ssid% %mode% %ssid% >> tmp\conn.log
+    ( type tmp\conn.log  | find "completed successfully" ) &&  echo %ssid%>%meshr:/=\%\var\run\wifi-formed.txt
     goto :CONTINUE )
   rem connecting to meshr.net
   ( type tmp\wlan.log  | find "connected to %ssid%" ) && (
@@ -50,9 +50,7 @@ IF NOT EXIST  %meshr:/=\%\var\run\wifi.txt (
 :online
     %bin%\start-stop-daemon.exe start meshr-splash
     start %bin%\tor.exe --defaults-torrc "%meshr:/=\%\etc\Tor\torrc-defaults" -f "%meshr:/=\%\etc\Tor\torrc" DataDirectory "%meshr:/=\%\etc\Tor" GeoIPFile "%meshr:/=\%\etc\Tor\geoip"
-    rem %bin%\sleep 3    
-    rem start %bin%\DualServer.exe -v
-  )
+  ) || del %meshr:/=\%\var\run\wifi-formed.txt
 ) ELSE (
   ( type %meshr:/=\%\tmp\wlan.log | find "connected to %ssid% " ) && goto :CONTINUE
   rem disconnected: restore old settings
