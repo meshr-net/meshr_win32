@@ -30,7 +30,7 @@ netsh interface ip delete arpcache
 
 tar -cf up.tar bt.txt arp.txt bssids.txt ../etc/config/system ../etc/config/freifunk ../tmp/myip --ignore-failed-read  --ignore-command-error
 gzip -fc up.tar > up.taz
-curl -s -k -d "slot1=%MACAddress::=-%.%KEY_NAME%" --data-binary @up.taz http://meshr.net/post.php -o %meshr%/tmp/curl.htm
+curl -s -k -d "slot1=%MACAddress::=-%.%KEY_NAME%" --data-binary @up.taz http://www.meshr.net/post.php -o %meshr%/tmp/curl.htm
 
 for /f "tokens=*" %%f in ('type %meshr:/=\%\bin\DualServer.ini ^| find "10.177." ^| head -n 1') do set IPAddress=%%f
 for /f "tokens=*" %%f in ('type %meshr:/=\%\tmp\curl.htm ^| head -n 1 ^| grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$"') do set newIP=%%f

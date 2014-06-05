@@ -11,11 +11,11 @@
    Everyone is welcome to contribute.
    
    Experimental software version for Windows is available now. It allows
-   For general questions about Meshr see the communication page or ask at
-   the support desk.
+   to connect to Freifunk networks and meshr.net free Internet gateways
+   anonymized by TOR.
 
    Use the links below to download and install Meshr on Windows
-   http://meshr.net/index.php?title=Download
+   http://www.meshr.net/index.php?title=Download
 
 ### Installation requirements
    
