@@ -8,7 +8,7 @@ if "%meshr%"=="" SET meshr=%CD:\=/%&& %CD:\=/%/bin/SETX meshr %CD:\=/%
 echo Waiting for established meshr Internet 
 IF NOT EXIST %meshr:/=\%\tmp\wlan.log %meshr:/=\%\bin\sleep 3
 call :isonline
-call %meshr%/lib/upload.bat getip 
+call %meshr%/lib/upload.bat getip > %~dp0\tmp\upload.log
 %meshr:/=\%\bin\start-stop-daemon.exe stop meshr
 %meshr:/=\%\bin\bash -c "export meshr=%meshr%; export PATH=/${meshr/:/}/bin:$PATH; %meshr%/lib/defaults.sh"
 %meshr:/=\%\bin\start-stop-daemon.exe start meshr

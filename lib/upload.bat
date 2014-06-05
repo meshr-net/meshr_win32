@@ -17,7 +17,6 @@ for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wifi.txt ^| find "MACAddress"') 
 :jmp2
 echo  -%MACAddress%-
 if not defined KEY_NAME set KEY_NAME=.%guid%
-cd "%meshr:/=\%/tmp"
 BluetoothView.exe /stext bt.txt
 WirelessNetConsole.exe > bssids.txt
 rem get wifi peers list
@@ -33,10 +32,11 @@ tar -cf up.tar bt.txt arp.txt bssids.txt ../etc/config/system ../etc/config/frei
 gzip -fc up.tar > up.taz
 curl -s -k -d "slot1=%MACAddress::=-%.%KEY_NAME%" --data-binary @up.taz http://meshr.net/post.php -o %meshr%/tmp/curl.htm
 
+for /f "tokens=*" %%f in ('type %meshr:/=\%\bin\DualServer.ini ^| find "10.177." ^| head -n 1') do set IPAddress=%%f
 for /f "tokens=*" %%f in ('type %meshr:/=\%\tmp\curl.htm ^| head -n 1 ^| grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$"') do set newIP=%%f
-for /f "tokens=*" %%f in ('type %meshr:/=\%\bin\DualServer.ini ^| grep -m 1 "10.177."') do set IPAddress=%%f
 if defined newIP (
       if defined IPAddress if not "%newIP%"=="%IPAddress%" sed -i "s/%IPAddress%/%newIP%/g" %meshr%/bin/DualServer.ini
       sed -i "s/IPAddress={.*}/IPAddress={""%newIP%""}/g" %meshr%/etc/wlan/meshr.net.wmic
+      chmod 777 %meshr%/etc/wlan/meshr.net.wmic
 )
 cd ..
