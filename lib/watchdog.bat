@@ -37,12 +37,13 @@ IF NOT EXIST  %meshr:/=\%\var\run\wifi.txt ( bin\grep """off""\|Got error" %mesh
     call %meshr:/=\%\lib\setip.bat "%meshr:/=\%\etc\wlan\%ssid%.wmic" > %meshr:/=\%\tmp\setip.log
     type %meshr:/=\%\tmp\setip.log | %bin%\tr '[\000-\011\013-\037\177-\377]' '.' | %bin%\grep "^.\?PC ONLINE" && goto :online
     start %meshr%/lib/tor-tun.bat ^> %meshr:/=\%\tmp\tt.log
+    %bin%\start-stop-daemon.exe start meshr-splash
     goto :CONTINUE
 :online
     %bin%\start-stop-daemon.exe start meshr-splash
     start %bin%\tor.exe --defaults-torrc "%meshr:/=\%\etc\Tor\torrc-defaults" -f "%meshr:/=\%\etc\Tor\torrc" DataDirectory "%meshr:/=\%\etc\Tor" GeoIPFile "%meshr:/=\%\etc\Tor\geoip"
-    %bin%\sleep 3    
-    start %bin%\DualServer.exe -v  ^> %meshr:/=\%\tmp\ds.log
+    rem %bin%\sleep 3    
+    rem start %bin%\DualServer.exe -v
   ) 
 )) ELSE (
   ( type %meshr:/=\%\tmp\wlan.log | find "connected to %ssid% " ) && goto :CONTINUE
