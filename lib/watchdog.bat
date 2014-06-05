@@ -9,6 +9,10 @@ net session >nul 2>&1 || (
 )
 del %meshr:/=\%\var\run\wifi.txt %meshr:/=\%\var\run\wifi-formed.txt
 for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wifi.txt') do set "%%f"
+for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wlan\%ssid%.wmic') do set "%%f"
+set IPAddress=%IPAddress:{=%
+set IPAddress=%IPAddress:}=%
+set IPAddress=%IPAddress:"=%
 %bin%\wlan conn %guid% %ssid% %mode% %ssid%-adhoc || %bin%\wlan conn %guid% %ssid% %mode% %ssid%
 echo %ssid%>%meshr:/=\%\var\run\wifi-formed.txt
 bin\sleep 3
@@ -17,23 +21,27 @@ rem infinite loop
 IF NOT defined ssid IF NOT EXIST  %meshr:/=\%\etc\wifi.txt goto :CONTINUE
 IF NOT defined ssid for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wifi.txt') do set "%%f"
 %bin%\wlan qi %guid% > %meshr%/tmp/wlan.log
+( type tmp\wlan.log  | find """off""" ) && goto :CONTINUE
+( type tmp\wlan.log  | find "Got error" ) && goto :CONTINUE
 rem trying to connect
-IF NOT EXIST  %meshr:/=\%\var\run\wifi.txt ( bin\grep """off""\|Got error" %meshr:/=\%\tmp\wlan.log || (
-  bin\grep "formed %ssid%" tmp/wlan.log && goto :CONTINUE
-  rem not disconnected and not meshr.net
-  bin\grep """disconnected""" tmp/wlan.log || bin\grep "%ssid%" tmp/wlan.log || goto :CONTINUE
+IF NOT EXIST  %meshr:/=\%\var\run\wifi.txt (
+  ( type tmp\wlan.log  | find "formed %ssid%" ) && goto :CONTINUE
   rem disconnected : trying to connect
-  ( bin\grep """disconnected""" tmp/wlan.log ) && (
+  ( type tmp\wlan.log  | find """disconnected""" ) && (
     %bin%\ufind %meshr:/=\%\var\run\wifi-formed.txt -mmin +15 | find "wifi" && del %meshr:/=\%\var\run\wifi-formed.txt
     %bin%\ufind %meshr:/=\%\var\run\wifi-formed.txt -mmin +2 | find "wifi" && goto :CONTINUE
     %bin%\wlan conn %guid% %ssid% %mode% %ssid%-adhoc > tmp\conn.log 
-    bin\grep "is not correct" tmp/conn.log && %bin%\wlan conn %guid% %ssid% %mode% %ssid% >> tmp\conn.log
-    bin\grep "completed successfully" tmp/conn.log &&  echo %ssid%>%meshr:/=\%\var\run\wifi-formed.txt
+    ( type tmp\wlan.log  | find "is not correct" ) && %bin%\wlan conn %guid% %ssid% %mode% %ssid% >> tmp\conn.log
+    ( type tmp\wlan.log  | find "completed successfully" ) &&  echo %ssid%>%meshr:/=\%\var\run\wifi-formed.txt
     goto :CONTINUE )
   rem connecting to meshr.net
-  bin\grep "connected to %ssid%" tmp/wlan.log && (
-    for %%A in (olsrd) do %bin%\start-stop-daemon.exe stop %%A
+  ( type tmp\wlan.log  | find "connected to %ssid%" ) && (
     wmic nicconfig where SettingID="{%guid%}" get DHCPEnabled,DNSServerSearchOrder,DefaultIPGateway,IPAddress,IPSubnet,Caption,DHCPServer /value | more > %meshr:/=\%\var\run\wifi.txt
+    rem run DHCP server ASAP
+    if defined IPAddress if defined NetConnectionID ( netsh interface ip set address %NetConnectionID% static %IPAddress% %IPSubnet:}=% %DefaultIPGateway:}=%
+      %bin%\sleep 2
+      start %bin%\DualServer.exe -v )
+    for %%A in (olsrd) do %bin%\start-stop-daemon.exe stop %%A
     call %meshr:/=\%\lib\setip.bat "%meshr:/=\%\etc\wlan\%ssid%.wmic" > %meshr:/=\%\tmp\setip.log
     type %meshr:/=\%\tmp\setip.log | %bin%\tr '[\000-\011\013-\037\177-\377]' '.' | %bin%\grep "^.\?PC ONLINE" && goto :online
     start %meshr%/lib/tor-tun.bat ^> %meshr:/=\%\tmp\tt.log
@@ -44,8 +52,8 @@ IF NOT EXIST  %meshr:/=\%\var\run\wifi.txt ( bin\grep """off""\|Got error" %mesh
     start %bin%\tor.exe --defaults-torrc "%meshr:/=\%\etc\Tor\torrc-defaults" -f "%meshr:/=\%\etc\Tor\torrc" DataDirectory "%meshr:/=\%\etc\Tor" GeoIPFile "%meshr:/=\%\etc\Tor\geoip"
     rem %bin%\sleep 3    
     rem start %bin%\DualServer.exe -v
-  ) 
-)) ELSE (
+  )
+) ELSE (
   ( type %meshr:/=\%\tmp\wlan.log | find "connected to %ssid% " ) && goto :CONTINUE
   rem disconnected: restore old settings
   call %bin%\services.bat stop "" conn
