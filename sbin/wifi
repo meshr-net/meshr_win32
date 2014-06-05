@@ -141,7 +141,7 @@ set -x
       fi
       if [ "$ssid" = "meshr.net" ]; then
         #cmd.exe "/c ${meshr//\//\\}\\lib\\upload.bat"
-        ip4addr=`cat $meshr/tmp/curl.htm | head -n 1 |grep -E '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$'`
+        ip4addr=`cat $meshr/tmp/curl.htm | head -n 1 | grep -E '^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$'`
         [ -z $ip4addr ] && ip4addr=`cat $meshr/etc/wlan/meshr.net.wmic | grep "10.177" | sed 's/.*\(10.177.*\)\".*/\1/g'`
         if [ -z $ip4addr ]; then # Random IP allocation
           n3=`echo $guid | sed 's/.\+\([0-9a-fA-F]\{2\}\)$/\1/g'`
@@ -153,7 +153,8 @@ set -x
       fi     
       cp -f $meshr/etc/DualServer $meshr/bin/DualServer.ini &&  sed -i "s/10.177.0.1/$ip4addr/g" $meshr/bin/DualServer.ini
       [ -f $meshr/etc/wlan/$ssid.wmic ] || ( cp $meshr/etc/wlan/meshr.net.wmic $meshr/etc/wlan/$ssid.wmic )
-      sed -i "s/IPAddress={\".\+[0-9]\"/IPAddress={\"$ip4addr\"/g" $meshr/etc/wlan/$ssid.wmic
+      sed -i "s/IPAddress={.*}/IPAddress={\"$ip4addr\"/g" $meshr/etc/wlan/$ssid.wmic
+      chmod 777 $meshr/etc/wlan/$ssid.wmic
       #TODO: check Internet; add to uci
       uci set wireless.$device\_iface.ip4addr=$ip4addr
       uci set wireless.$device\_iface.diversity=0
@@ -165,8 +166,6 @@ set -x
       uci commit meshwizard
       #windev=`cat $meshr/tmp/olsrd2.int | grep $device | sed "s/.*} \(.*\)/\1/g"`
       IP="$(uci -q get wireless.$device\_iface.IP)"
-      while [ ! `$meshr/bin/start-stop-daemon.exe status meshr-watchdog | grep "S.T.O.P.P.E.D" --binary-files=text ` ]; do sleep 1; done
-      $meshr/bin/start-stop-daemon.exe start meshr-watchdog
       #( wlan conn $guid $ssid $mode $ssid | grep "Got error" ) && wlan conn $guid $ssid $mode $ssid-adhoc
       #cmd "/c ${meshr//\//\\}\\lib\\watchdog.bat fg"
     }

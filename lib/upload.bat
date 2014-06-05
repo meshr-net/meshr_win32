@@ -35,7 +35,7 @@ curl -s -k -d "slot1=%MACAddress::=-%.%KEY_NAME%" --data-binary @up.taz http://m
 for /f "tokens=*" %%f in ('type %meshr:/=\%\bin\DualServer.ini ^| find "10.177." ^| head -n 1') do set IPAddress=%%f
 for /f "tokens=*" %%f in ('type %meshr:/=\%\tmp\curl.htm ^| head -n 1 ^| grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$"') do set newIP=%%f
 if defined newIP (
-      if defined IPAddress if not "%newIP%"=="%IPAddress%" sed -i "s/%IPAddress%/%newIP%/g" %meshr%/bin/DualServer.ini
+      if not "%IPAddress%"=="" if not "%newIP%"=="%IPAddress%" sed -i "s/%IPAddress%/%newIP%/g" %meshr%/bin/DualServer.ini
       sed -i "s/IPAddress={.*}/IPAddress={""%newIP%""}/g" %meshr%/etc/wlan/meshr.net.wmic
       chmod 777 %meshr%/etc/wlan/meshr.net.wmic
 )
