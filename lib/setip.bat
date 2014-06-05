@@ -23,12 +23,13 @@ set IPSubnet=%IPSubnet:{=%
 set IPAddress=%IPAddress:{=%
 set IPAddress=%IPAddress:}=%
 set IPAddress=%IPAddress:"=%
+set DefaultIPGateway=%DefaultIPGateway:{=%
+set DefaultIPGateway=%DefaultIPGateway:"=%}
 if defined IPAddress netsh interface ip set address %NetConnectionID% static %IPAddress% %IPSubnet:}=% %DefaultIPGateway:}=%
 if %1=="%meshr:/=\%\etc\wlan\meshr.net.wmic" if defined IPAddress start %bin%\DualServer.exe -v
 
 set DNSServerSearchOrder=%DNSServerSearchOrder:{=%
-set DefaultIPGateway=%DefaultIPGateway:{=%
-set DefaultIPGateway=%DefaultIPGateway:"=%
+
 echo %DefaultIPGateway:}=% | find "." || set DefaultIPGateway=}
 
 echo %DNSServerSearchOrder:}=% | find "." && netsh interface ip set dns %NetConnectionID%  static %DNSServerSearchOrder:}=% || netsh interface ip set dns %NetConnectionID% dhcp
