@@ -1,6 +1,6 @@
 rem check admin rights
 net session >nul 2>&1 || ( 
-  %meshr:/=\%\bin\sudo /b /c %0 %*
+  %~dp0\bin\sudo /b /c %0 %*
   goto :EOF
 )
 if not "%1"=="" cd "%1" && SET meshr=
