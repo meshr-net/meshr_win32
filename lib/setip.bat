@@ -10,10 +10,10 @@ echo NetConnectionID=%NetConnectionID%>> %meshr:/=\%\etc\wifi.txt
 
 :ok
 ( type %1 | find "DHCPEnabled=TRUE" ) && (
+  netsh interface ip set dns %NetConnectionID% dhcp    
   wmic nicconfig where SettingID="{%guid%}" get DHCPEnabled /value | find "TRUE" && goto :EOF
   netsh interface ip set address %NetConnectionID% dhcp | find "DHCP" && (( type %meshr:/=\%\tmp\wlan.log | find """disconnected""" ) && ( wmic path win32_networkadapter where NetConnectionID=%NetConnectionID% call disable && wmic path win32_networkadapter where NetConnectionID=%NetConnectionID% call enable
     netsh interface ip set address %NetConnectionID% dhcp ))
-  netsh interface ip set dns %NetConnectionID% dhcp    
   goto :EOF
 )
 
