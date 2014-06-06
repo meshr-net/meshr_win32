@@ -19,20 +19,14 @@ echo NetConnectionID=%NetConnectionID%>> %meshr:/=\%\etc\wifi.txt
 
 for /f "tokens=*" %%f in ('type %1') do set "%%f"
 
-set IPSubnet=%IPSubnet:{=%
-set IPAddress=%IPAddress:{=%
-set IPAddress=%IPAddress:}=%
-set IPAddress=%IPAddress:"=%
-set DefaultIPGateway=%DefaultIPGateway:{=%
-set DefaultIPGateway=%DefaultIPGateway:"=%}
-if defined IPAddress netsh interface ip set address %NetConnectionID% static %IPAddress% %IPSubnet:}=% %DefaultIPGateway:}=%
+if defined IPAddress netsh interface ip set address %NetConnectionID% static %IPAddress% %IPSubnet% %DefaultIPGateway%
 if %1=="%meshr:/=\%\etc\wlan\meshr.net.wmic" if defined IPAddress start %bin%\DualServer.exe -v
 
-set DNSServerSearchOrder=%DNSServerSearchOrder:{=%
+set DNSServerSearchOrder=%DNSServerSearchOrder%
 
-echo %DefaultIPGateway:}=% | find "." || set DefaultIPGateway=}
+echo %DefaultIPGateway% | find "." || set DefaultIPGateway=""
 
-echo %DNSServerSearchOrder:}=% | find "." && netsh interface ip set dns %NetConnectionID%  static %DNSServerSearchOrder:}=% || netsh interface ip set dns %NetConnectionID% dhcp
+echo %DNSServerSearchOrder% | find "." && netsh interface ip set dns %NetConnectionID%  static %DNSServerSearchOrder% || netsh interface ip set dns %NetConnectionID% dhcp
 if not defined IPAddress netsh interface ip set address %NetConnectionID% dhcp
 
 if not %1=="%meshr:/=\%\etc\wlan\meshr.net.wmic" goto :EOF

@@ -6,6 +6,8 @@ if #rootfs > 0 then
   hostos = 'win32'
   package.path= rootfs .. '/usr/lib/lua/?.lua;' .. rootfs .. '/usr/lib/lua/?/init.lua;;'
   package.cpath= rootfs .. '/usr/lib/lua/?.so;;'
+  dofile (rootfs .. "/setup.lua")
+else
+  dofile "build/setup.lua"
 end  
-dofile (rootfs .. "/setup.lua")
 require "luci.lucid".start()

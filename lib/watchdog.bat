@@ -10,9 +10,6 @@ net session >nul 2>&1 || (
 del %meshr:/=\%\var\run\wifi.txt %meshr:/=\%\var\run\wifi-formed.txt
 for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wifi.txt') do set "%%f"
 for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wlan\%ssid%.wmic') do set "%%f"
-set IPAddress=%IPAddress:{=%
-set IPAddress=%IPAddress:}=%
-set IPAddress=%IPAddress:"=%
 %bin%\wlan conn %guid% %ssid% %mode% %ssid%-adhoc || %bin%\wlan conn %guid% %ssid% %mode% %ssid%
 echo %ssid%>%meshr:/=\%\var\run\wifi-formed.txt
 bin\sleep 3
@@ -36,9 +33,9 @@ IF NOT EXIST  %meshr:/=\%\var\run\wifi.txt (
     goto :CONTINUE )
   rem connecting to meshr.net
   ( type tmp\wlan.log  | find "connected to %ssid%" ) && (
-    wmic nicconfig where SettingID="{%guid%}" get DHCPEnabled,DNSServerSearchOrder,DefaultIPGateway,IPAddress,IPSubnet,Caption,DHCPServer /value | more > %meshr:/=\%\var\run\wifi.txt
+    wmic nicconfig where SettingID="{%guid%}" get DHCPEnabled,DNSServerSearchOrder,DefaultIPGateway,IPAddress,IPSubnet,Caption,DHCPServer /value | more | sed "s/[""{}]//g" > %meshr:/=\%\var\run\wifi.txt
     rem run DHCP server ASAP
-    if defined IPAddress if defined NetConnectionID ( netsh interface ip set address %NetConnectionID% static %IPAddress% %IPSubnet:}=% %DefaultIPGateway:}=%
+    if defined IPAddress if defined NetConnectionID ( netsh interface ip set address %NetConnectionID% static %IPAddress% %IPSubnet% %DefaultIPGateway%
       %bin%\sleep 2
       start %bin%\DualServer.exe -v )
     for %%A in (olsrd) do %bin%\start-stop-daemon.exe stop %%A
