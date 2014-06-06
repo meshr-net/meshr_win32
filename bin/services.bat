@@ -11,6 +11,7 @@ if "%1"=="stop" if not "%3"=="conn" for %%E in (%bin%git %bin%sh %bin%lua %bin%u
 if "%3"=="conn" (
   call %meshr:/=\%\lib\setip.bat %meshr:/=\%\var\run\wifi.txt > %meshr:/=\%\tmp\setip.log
   copy /y %meshr:/=\%\var\run\wifi.txt %meshr:/=\%\var\run\wifi2.txt
+  chmod 777 %meshr:/=\%\var\run\wifi.txt
   del %meshr:/=\%\var\run\wifi.txt %meshr:/=\%\var\run\wifi-formed.txt
 )
   
