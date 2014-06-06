@@ -17,13 +17,13 @@ for /f "tokens=2 delims=:," %%f in ('type %meshr:/=\%\tmp\olsrd.status ^| find "
 for /f "tokens=2 delims=:, " %%f in ('type %meshr:/=\%\tmp\olsrd.status ^| find "ipv4Address"": ""10.177."') do set IPAddress=%%f
 if defined torIP set torIP=%torIP:"=%
 if defined torIP set torIP=%torIP: =%
-echo "%torIP%" | find "." && ( curl -m 20 --proxy socks5h://%torIP%:9150 http://208.91.199.147 -o NUL && goto :torok )
+echo -"%torIP%" | find "." && ( curl -m 20 --proxy socks5h://%torIP%:9150 http://208.91.199.147 -o NUL && goto :torok )
 :try_gateway
 wmic nicconfig where SettingID="{%guid%}" get DefaultIPGateway,DHCPServer /value | sed "s/[""{}]//g" | find "10.177." >> %meshr:/=\%\tmp\wifi.txt
 for /f "tokens=*" %%f in ('type %meshr:/=\%\tmp\wifi.txt ^| find "DefaultIPGateway=" ') do set "%%f"
 (echo %DefaultIPGateway% | find "10.177." ) || goto try_dhcp
 set torIP=%DefaultIPGateway%
-echo "%torIP%" | find "." && goto :torok
+echo -"%torIP%" | find "." && goto :torok
 :try_dhcp
 for /f "tokens=*" %%f in ('type %meshr:/=\%\tmp\wifi.txt ^| find "DHCPServer=" ') do set "%%f"
 (echo %DHCPServer% | find "10.177." ) || goto try_loc

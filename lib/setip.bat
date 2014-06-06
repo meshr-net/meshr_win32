@@ -24,9 +24,9 @@ if %1=="%meshr:/=\%\etc\wlan\meshr.net.wmic" if defined IPAddress start %bin%\Du
 
 set DNSServerSearchOrder=%DNSServerSearchOrder%
 
-echo %DefaultIPGateway% | find "." || set DefaultIPGateway=""
+echo -%DefaultIPGateway% | find "." || set DefaultIPGateway=""
 
-echo %DNSServerSearchOrder% | find "." && netsh interface ip set dns %NetConnectionID%  static %DNSServerSearchOrder% || netsh interface ip set dns %NetConnectionID% dhcp
+echo -%DNSServerSearchOrder% | find "." && netsh interface ip set dns %NetConnectionID%  static %DNSServerSearchOrder% || netsh interface ip set dns %NetConnectionID% dhcp
 if not defined IPAddress netsh interface ip set address %NetConnectionID% dhcp
 
 if not %1=="%meshr:/=\%\etc\wlan\meshr.net.wmic" goto :EOF
