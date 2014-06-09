@@ -20,7 +20,7 @@ echo NetConnectionID=%NetConnectionID%>> %meshr:/=\%\etc\wifi.txt
 for /f "tokens=*" %%f in ('type %1') do set "%%f"
 
 if defined IPAddress netsh interface ip set address %NetConnectionID% static %IPAddress% %IPSubnet% %DefaultIPGateway%
-if %1=="%meshr:/=\%\etc\wlan\meshr.net.wmic" if defined IPAddress start %bin%\DualServer.exe -v
+if %1=="%meshr:/=\%\etc\wlan\meshr.net.txt" if defined IPAddress start %bin%\DualServer.exe -v
 
 set DNSServerSearchOrder=%DNSServerSearchOrder%
 
@@ -29,7 +29,7 @@ echo -%DefaultIPGateway% | find "." || set DefaultIPGateway=""
 echo -%DNSServerSearchOrder% | find "." && netsh interface ip set dns %NetConnectionID%  static %DNSServerSearchOrder% || netsh interface ip set dns %NetConnectionID% dhcp
 if not defined IPAddress netsh interface ip set address %NetConnectionID% dhcp
 
-if not %1=="%meshr:/=\%\etc\wlan\meshr.net.wmic" goto :EOF
+if not %1=="%meshr:/=\%\etc\wlan\meshr.net.txt" goto :EOF
 Set bin=%meshr:/=\%\bin
 rem test if offline
 if not exist %meshr:/=\%\var\etc\olsrd.conf goto :EOF

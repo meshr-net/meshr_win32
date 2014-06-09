@@ -1,7 +1,7 @@
 
 Contents
 
-     * 1 Meshr release notes
+     * 1 Meshr 0.1 release notes
           + 1.1 Meshr 0.1
                o 1.1.1 Configuration changes in 0.1
                o 1.1.2 New features in 0.1
@@ -14,7 +14,7 @@ Contents
           + 1.4 Online documentation
           + 1.5 Support
        
-                              Meshr release notes
+                            Meshr 0.1 release notes
                                        
    Security reminder: Meshr requires Administrator privileges to install.
    
@@ -29,7 +29,7 @@ Meshr 0.1
        install path. Default value is C:/opt/meshr
      * Windows related configuration files added to /etc folder:
           + %meshr%/etc/wlan/ folder contains *.xml files for Windows
-            wireless profile configuration settings and *.wmic files for
+            wireless profile configuration settings and *.txt files for
             ip configuration settings.
           + %meshr%/etc/wifi.txt file contains settings for default
             wireless adapter
@@ -38,12 +38,16 @@ Meshr 0.1
   
      * 4 windows services are installed during installation:
           + meshr - web server for main luci web interface, default url
-            http://127.0.0.1:8084/ (started automatically)
+            http://127.0.0.1:8084/ (it is %meshr%\lucid.bat, started
+            automatically)
           + meshr-watchdog - service for monitoring and establishing
-            wireless connections (started automatically)
-          + meshr-splash - web server for splash screen (started if
-            connected to mesh network)
-          + olsrd - olsr routing daemon (started if connected to mesh
+            wireless connections (it is %meshr%\lib\watchdog.bat, started
+            automatically)
+          + meshr-splash - web server for splash screen (it is
+            %meshr%\lucid-splash.bat, started if connected to mesh
+            network)
+          + olsrd - olsr routing daemon (it is
+            %meshr%\usr\sbin\olsrd.exe, started if connected to mesh
             network)
        
      * Automatic geolocation
@@ -74,12 +78,11 @@ Meshr 0.1
        windows)
      * smode variable indicates that it is splash-mode and lucid must
        return only splash-screen pages
-     * "Update lists"/" Upgrade" buttons added to Software -> Actions tab
-     * luci\model\ipkg.lua is under development, not finished
+     * Update lists and Upgrade buttons added to Software -> Actions tab
      * Additional info for network optimization (non-public) added on
        page including Entrance number, Floor number, Floor plan for
        network optimization and better wifi positioning
-     * Disabled root authenticator for windows host os
+     * Disabled login/password authenticator for windows host os
      * In lucid/http/handler/file.lua Added server side lua scripting
        execution
      * olsr-viz.sh and vizdata.sh are rewritten in lua: olsr-viz.lua and

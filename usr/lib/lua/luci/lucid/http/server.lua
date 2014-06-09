@@ -10,7 +10,7 @@ You may obtain a copy of the License at
 
 $Id$
 ]]--
-local hostos = hostos
+local hostos = hostos or ''
 local ipairs, pairs = ipairs, pairs
 local tostring, tonumber = tostring, tonumber
 local pcall, assert, type = pcall, assert, type

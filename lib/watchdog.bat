@@ -9,7 +9,7 @@ net session >nul 2>&1 || (
 )
 del %meshr:/=\%\var\run\wifi.txt %meshr:/=\%\var\run\wifi-formed.txt
 for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wifi.txt') do set "%%f"
-for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wlan\%ssid%.wmic') do set "%%f"
+for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wlan\%ssid%.txt') do set "%%f"
 %bin%\wlan conn %guid% %ssid% %mode% %ssid%-adhoc || %bin%\wlan conn %guid% %ssid% %mode% %ssid%
 echo %ssid%>%meshr:/=\%\var\run\wifi-formed.txt
 bin\sleep 3
@@ -39,7 +39,7 @@ IF NOT EXIST  %meshr:/=\%\var\run\wifi.txt (
       %bin%\sleep 2
       start %bin%\DualServer.exe -v )
     for %%A in (olsrd) do %bin%\start-stop-daemon.exe stop %%A
-    call %meshr:/=\%\lib\setip.bat "%meshr:/=\%\etc\wlan\%ssid%.wmic" > %meshr:/=\%\tmp\setip.log
+    call %meshr:/=\%\lib\setip.bat "%meshr:/=\%\etc\wlan\%ssid%.txt" > %meshr:/=\%\tmp\setip.log
     type %meshr:/=\%\tmp\setip.log | %bin%\tr '[\000-\011\013-\037\177-\377]' '.' | %bin%\grep "^.\?PC ONLINE" && goto :online
     start %meshr%/lib/tor-tun.bat ^> %meshr:/=\%\tmp\tt.log
     %bin%\start-stop-daemon.exe start meshr-splash

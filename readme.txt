@@ -51,10 +51,10 @@
      *  %meshr% Windows environment variable added. It contains software
        install path. Default value is C:/opt/meshr
      * Windows related configuration files added to /etc folder:
-          +  %meshr%/etc/wlan/ folder contains *.xml files for Windows
-            wireless profile configuration settings and *.wmic files for
+          + %meshr%/etc/wlan/ folder contains *.xml files for Windows
+            wireless profile configuration settings and *.txt files for
             ip configuration settings.
-          +  %meshr%/etc/wifi.txt file contains settings for default
+          + %meshr%/etc/wifi.txt file contains settings for default
             wireless adapter
 
 ### Meshr feature list
@@ -72,7 +72,7 @@
 
 ### How it works?
        
-Before first use
+Before first use[edit]
 
    Meshr generates default config after installation to create new meshr
    node (in "%meshr%/default.bat")
@@ -86,7 +86,7 @@ Before first use
        node of this network. If there is no known networks then it
        configures meshr settings to create new node of meshr.net network.
        
-Everyday use
+Everyday use[edit]
 
    Meshr is monitoring status of your wireless adapter (in
    "%meshr%/lib/watchdog.bat")

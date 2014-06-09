@@ -13,9 +13,9 @@ if "%1"=="Uninstall" (
     call %~dp0\bin\services.bat stop 
     call %~dp0\bin\services.bat remove confirm
     cd %~dp0
-    bin\chmod.exe 777 .\etc\wlan\meshr.net.wmic
-    del .\var\etc\olsrd.conf .\bin\DualServer.ini .\etc\wlan\meshr.net.wmic
-    move /Y .\etc\wlan\meshr.net.wmic %TEMP%\wmic.%TIME::=.%.tmp
+    bin\chmod.exe 777 .\etc\wlan\meshr.net.txt
+    del .\var\etc\olsrd.conf .\bin\DualServer.ini .\etc\wlan\meshr.net.txt
+    move /Y .\etc\wlan\meshr.net.txt %TEMP%\wmic.%TIME::=.%.tmp
     rm -rf %~dp0
     exit
   ) 2>&1 >> %TEMP%\meshr-Uninstall.log

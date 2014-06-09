@@ -45,9 +45,9 @@ function prepare_daemon(config, server)
    for _, addr in ipairs(config.address) do
       local host, port = addr:match("(.-):?([^:]*)$")
       if smode then
-      local uci = require("luci.model.uci").cursor()
-      host = fs.readfile(rootfs .. "/etc/wlan/meshr.net.wmic"):match( "IPAddress=.-([%d%.]+)") --uci:get("meshwizard", "general", "ip4addr")
-      port = 80
+        local uci = require("luci.model.uci").cursor()
+        host = fs.readfile(rootfs .. "/etc/wlan/meshr.net.txt"):match( "IPAddress=[^\n]-([%d%.]+)") or '' --uci:get("meshwizard", "general", "ip4addr")
+        port = 80
       end
       if not host then
          nixio.syslog("err", "Invalid address: " .. addr)
