@@ -46,6 +46,7 @@ git rm . -r --cached && bin\git add .
 cd %meshr:/=\%\etc\config
 git ls-files | tr '\n' ' ' | xargs git update-index --assume-unchanged 
 cd %meshr:/=\%
+git fetch origin
 git reset --hard origin/release
 call lib\bssids.bat %meshr% > tmp\bssids.log
 wlan sp %guid% etc/wlan/meshr.net.xml
