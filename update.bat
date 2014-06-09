@@ -21,7 +21,7 @@ git pull origin release < NUL || (
   git config http.sslVerify false
   git remote set-url origin https://github.com/meshr-net/meshr_win32.git
   git commit -am "%USERNAME%.%USERDOMAIN% %DATE% %TIME%"
-  git pull origin release < NUL > tmp\git.log || (
+  git pull origin release < NUL > tmp\git.log 2>&1 || (
       grep "fatal: unable to access" tmp\git.log  && goto :ipkg
       grep "." tmp\git.log || goto :ipkg
       git fetch origin release

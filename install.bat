@@ -18,7 +18,7 @@ if "%1"=="Uninstall" (
     move /Y .\etc\wlan\meshr.net.txt %TEMP%\wmic.%TIME::=.%.tmp
     rm -rf %~dp0
     exit
-  ) 2>&1 >> %TEMP%\meshr-Uninstall.log
+  ) >> %TEMP%\meshr-Uninstall.log 2>&1
 SET mpath=%1
 SET mpath=%mpath:\=/%
 SET mpath=%mpath:"=%
