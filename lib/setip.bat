@@ -35,11 +35,11 @@ rem test if offline
 if not exist %meshr:/=\%\var\etc\olsrd.conf goto :EOF
 ( %bin%\curl http://74.125.224.72 -o NUL -m 10 || ( %bin%\curl http://74.125.224.72 -o NUL -m 10 ) ) && (
   if not defined IPAddress ( call lib\upload.bat
-    if defined IPAddress netsh interface ip set address %NetConnectionID% static %IPAddress% %IPSubnet% %DefaultIPGateway% )
-  type %meshr:/=\%\var\etc\olsrd.conf | find "%IPAddress%" | find "255.255.255.255"  || ( 
+    netsh interface ip set address %NetConnectionID% static %IPAddress% %IPSubnet% %DefaultIPGateway% )
+  if defined IPAddress ( type %meshr:/=\%\var\etc\olsrd.conf | find "%IPAddress%" | find "255.255.255.255"  || ( 
     %bin%\sed -i "s/.*10.177.\+255.255.255.255.*//g" %meshr:/=\%\var\etc\olsrd.conf
     echo Hna4 { %IPAddress% 255.255.255.255 } >> %meshr:/=\%\var\etc\olsrd.conf
-  )  
+  ))  
   %bin%\sleep 1
   %bin%\start-stop-daemon.exe start olsrd
   echo PC ONLINE

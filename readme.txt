@@ -72,7 +72,7 @@
 
 ### How it works?
        
-Before first use[edit]
+Before first use
 
    Meshr generates default config after installation to create new meshr
    node (in "%meshr%/default.bat")
@@ -86,7 +86,7 @@ Before first use[edit]
        node of this network. If there is no known networks then it
        configures meshr settings to create new node of meshr.net network.
        
-Everyday use[edit]
+Everyday use
 
    Meshr is monitoring status of your wireless adapter (in
    "%meshr%/lib/watchdog.bat")

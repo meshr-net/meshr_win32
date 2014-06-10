@@ -9,6 +9,7 @@ if "%1"=="stop" for %%E in (%bin%tor %bin%DualServer %bin%DNS2SOCKS %bin%badvpn-
 if "%1"=="stop" if not "%3"=="conn" for %%E in (%bin%git %bin%sh %bin%lua %bin%uci %bin%sleep %bin%start-stop-daemon) do wmic process where ExecutablePath='%%E.exe' delete
 
 if "%3"=="conn" (
+  if not exist %meshr:/=\%\var\run\wifi.txt echo DHCPEnabled=TRUE>%meshr:/=\%\var\run\wifi.txt
   call %meshr:/=\%\lib\setip.bat %meshr:/=\%\var\run\wifi.txt > %meshr:/=\%\tmp\setip.log
   copy /y %meshr:/=\%\var\run\wifi.txt %meshr:/=\%\var\run\wifi2.txt
   chmod 777 %meshr:/=\%\var\run\wifi.txt
