@@ -1,6 +1,7 @@
-cd "%meshr:/=\%"
+cd %~dp0..
+set meshr=%CD:\=/%
 set PATH=%PATH%;%CD%\bin
-cd "%meshr:/=\%\tmp"
+cd tmp
 
 if exist mguid.txt for /f "tokens=2,*" %%a in ('type mguid.txt ^| find "MachineGuid"') do set KEY_NAME=%%b
 if defined KEY_NAME goto :jmp1
@@ -12,6 +13,7 @@ for /f "tokens=2,*" %%a in ('reg query %KEY_REGKEY% /v %KEY_REGVAL% ^| findstr %
 :jmp1
 for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wifi.txt') do set "%%f"
 if defined MACAddress goto :jmp2
+if not defined guid for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wifi.txt') do set "%%f"
 wmic nicconfig where SettingID="{%guid%}" get MACAddress /value | find "=" >> %meshr:/=\%\etc\wifi.txt
 for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wifi.txt ^| find "MACAddress"') do set "%%f"
 :jmp2
