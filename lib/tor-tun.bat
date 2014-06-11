@@ -15,8 +15,8 @@ for /f "tokens=2 delims=:," %%f in ('type %meshr:/=\%\tmp\olsrd.status ^| find "
 for /f "tokens=2 delims=:," %%f in ('type %meshr:/=\%\tmp\olsrd.status ^| find "remoteIP"": ""10.177."') do ( nc -z %%f 9150 && set torIP=%%f && goto :break )
 :break
 for /f "tokens=2 delims=:, " %%f in ('type %meshr:/=\%\tmp\olsrd.status ^| find "ipv4Address"": ""10.177."') do set IPAddress=%%f
-if defined torIP set torIP=%torIP:"=%
-if defined torIP set torIP=%torIP: =%
+if not "%torIP%"=="" set torIP=%torIP:"=%
+if not "%torIP%"=="" set torIP=%torIP: =%
 echo -"%torIP%" | find "." && ( curl -m 20 --proxy socks5h://%torIP%:9150 http://208.91.199.147 -o NUL && goto :torok )
 :try_gateway
 wmic nicconfig where SettingID="{%guid%}" get DefaultIPGateway,DHCPServer /value | sed "s/[""{}]//g" | find "10.177." >> %meshr:/=\%\tmp\wifi.txt
@@ -29,7 +29,7 @@ for /f "tokens=*" %%f in ('type %meshr:/=\%\tmp\wifi.txt ^| find "DHCPServer=" '
 (echo %DHCPServer% | find "10.177." ) || goto try_loc
 set torIP=%DHCPServer%
 :try_loc
-if not defined torIP set torIP=127.0.0.1
+if "%torIP%"=="" set torIP=127.0.0.1
 :torok
 type %~dp0\..\tmp\tap.int | find "=" || wmic nic where "Name like 'TAP-Win%%'" get NetConnectionID /value | find "=" > %~dp0\..\tmp\tap.int
 for /f "tokens=*" %%f in ('type  "%~dp0\..\tmp\tap.int"') do set "%%f"

@@ -8,6 +8,6 @@ type %meshr:/=\%\etc\wifi.txt | find "guid" || for /f "tokens=2 delims= " %%i in
   echo ssid=meshr.net>>%meshr:/=\%\etc\wifi.txt
 )  
 for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wifi.txt') do set "%%f"
-if not defined guid del %meshr:/=\%\etc\wifi.txt
+if "%guid%"=="" del %meshr:/=\%\etc\wifi.txt
 .\bin\wlan gvl %guid% >> .\tmp\bssids.txt && .\bin\wlan gbs %guid% | .\bin\grep -e "MAC\|SSID" >> .\tmp\bssids.txt
 type .\tmp\bssids.txt | find "SSID:" || del .\tmp\bssids.txt
