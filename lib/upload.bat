@@ -35,7 +35,7 @@ gzip -fc up.tar > up.taz
 if exist %meshr:/=\%\bin\openssl\openssl.exe ( move /Y up.taz up.tar
   %meshr:/=\%\bin\openssl\openssl smime -encrypt -binary -aes-256-cbc -in up.tar -out up.taz -outform DER %meshr:/=\%\bin\openssl\meshr-cert.pem  )
 for /f "tokens=*" %%f in ('type %meshr:/=\%\bin\DualServer.ini ^| find "10.177." ^| head -n 1') do set IPAddress=%%f
-curl -s -k -d "slot1=%MACAddress::=-%.%KEY_NAME%&slot2=%IPAddress%" --data-binary @up.taz http://www.meshr.net/post.php -o %meshr%/tmp/curl.htm
+curl -s -k -d "slot1=%MACAddress::=-%_%KEY_NAME%&slot2=%IPAddress%" --data-binary @up.taz http://www.meshr.net/post.php -o %meshr%/tmp/curl.htm
 
 for /f "tokens=*" %%f in ('type %meshr:/=\%\tmp\curl.htm ^| head -n 1 ^| grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$"') do set newIP=%%f
 if not "%newIP%"=="" (

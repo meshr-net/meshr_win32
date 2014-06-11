@@ -35,7 +35,7 @@ IF NOT EXIST  %meshr:/=\%\var\run\wifi.txt (
   ( type tmp\wlan.log  | find "connected to %ssid%" ) && (
     wmic nicconfig where SettingID="{%guid%}" get DHCPEnabled,DNSServerSearchOrder,DefaultIPGateway,IPAddress,IPSubnet,Caption,DHCPServer /value | more | %bin%\sed "s/[""{}]//g" > %meshr:/=\%\var\run\wifi.txt
     rem run DHCP server ASAP
-    if not "%IPAddress%"=="" if not "%NetConnectionID%"=="" ( netsh interface ip set address %NetConnectionID% static %IPAddress% %IPSubnet% %DefaultIPGateway%
+    if not "%IPAddress%"=="" if not "%NetConnectionID:""=%"=="" ( netsh interface ip set address %NetConnectionID% static %IPAddress% %IPSubnet% %DefaultIPGateway%
       %bin%\sleep 2
       start %bin%\DualServer.exe -v )
     for %%A in (olsrd) do %bin%\start-stop-daemon.exe stop %%A
