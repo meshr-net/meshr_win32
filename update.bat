@@ -13,7 +13,9 @@ set tar="tmp\push%TIME::=.%.tar"
 git status | grep -e "modified:" && git status | grep -e "modified:" | cut -c 14- | tar rf %tar% -v -T - --exclude=etc/* --exclude=www/*.exe --exclude=bin/DualServer.* --exclude=bin/BluetoothView.cfg --ignore-failed-read  --ignore-command-error --overwrite
 IF "%1"=="" IF EXIST  push.bat tar --list --file %tar% | grep "." && goto :end
 type %meshr:/=\%\.git\index.lock && (del %meshr:/=\%\.git\index.lock || goto :end)
-git pull origin release < NUL || ( 
+set branch=release
+IF "%1"=="master" set branch=master
+git pull origin %branch% < NUL || ( 
   git config user.email "user@meshr.net"  
   git config user.name "%USERNAME% %USERDOMAIN%"  
   git config --unset http.proxy
@@ -21,16 +23,16 @@ git pull origin release < NUL || (
   git config http.sslVerify false
   git remote set-url origin https://github.com/meshr-net/meshr_win32.git
   git commit -am "%USERNAME%.%USERDOMAIN% %DATE% %TIME%"
-  git pull origin release < NUL > tmp\git.log 2>&1 || (
+  git pull origin %branch% < NUL > tmp\git.log 2>&1 || (
       grep "fatal: unable to access" tmp\git.log  && goto :ipkg
       grep "." tmp\git.log || goto :ipkg
-      git fetch origin release
+      git fetch origin %branch%
       type %meshr:/=\%\.git\index.lock && (del %meshr:/=\%\.git\index.lock || goto :end)
       git reset --merge  < NUL
       tar cf tmp/backup.tar --exclude-vcs --ignore-failed-read  --ignore-command-error -X etc/tarignore etc/* bin/DualServer.ini bin/BluetoothView.cfg 
-      git reset --hard origin/release < NUL || ( 
+      git reset --hard origin/%branch% < NUL || ( 
         call %meshr:/=\%\bin\services.bat stop
-        git reset  --hard  origin/release < NUL
+        git reset  --hard  origin/%branch% < NUL
         sleep 9 )
       tar xf tmp/backup.tar  -C . --overwrite --ignore-failed-read  --ignore-command-error
       call %meshr:/=\%\bin\services.bat start
