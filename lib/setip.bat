@@ -2,9 +2,9 @@ cd %~dp0..
 set meshr=%CD:\=/%
 set NetConnectionID=
 for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wifi.txt') do set "%%f"
-if not "%NetConnectionID:""=%"=="" goto ok
-if "%NetConnectionID:""=%"=="" for /f "tokens=2* delims==" %%a in ('type %meshr:/=\%\var\run\wifi.txt ^| find "Caption="') do for /f "tokens=*" %%f in ('wmic path win32_networkadapter where Caption^="%%a" get NetConnectionID /value ^| find "="') do set "%%f"
-if "%NetConnectionID:""=%"=="" goto :EOF
+if not "%NetConnectionID:"=%"=="" goto ok
+if "%NetConnectionID:"=%"=="" for /f "tokens=2* delims==" %%a in ('type %meshr:/=\%\var\run\wifi.txt ^| find "Caption="') do for /f "tokens=*" %%f in ('wmic path win32_networkadapter where Caption^="%%a" get NetConnectionID /value ^| find "="') do set "%%f"
+if "%NetConnectionID:"=%"=="" goto :EOF
 set NetConnectionID="%NetConnectionID:"=%"
 echo NetConnectionID=%NetConnectionID%>> %meshr:/=\%\etc\wifi.txt
 
