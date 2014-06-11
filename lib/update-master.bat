@@ -1,0 +1,2 @@
+cd ..
+update.bat master
