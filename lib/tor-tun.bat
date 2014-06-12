@@ -34,13 +34,14 @@ if "%torIP%"=="" set torIP=127.0.0.1
 type %~dp0\..\tmp\tap.int | find "=" || wmic nic where "Name like 'TAP-Win%%'" get NetConnectionID /value | find "=" > %~dp0\..\tmp\tap.int
 for /f "tokens=*" %%f in ('type  "%~dp0\..\tmp\tap.int"') do set "%%f"
 set NetConnectionID=%NetConnectionID:~0,-1%
+set NetConnectionID="%NetConnectionID%"
 echo %NetConnectionID%-
-ipconfig | find "%NetConnectionID:"=%" || wmic path win32_networkadapter where NetConnectionID="%NetConnectionID:"=%" call enable
-netsh interface ip set address "%NetConnectionID:"=%" static 10.177.254.1 255.255.255.0 
-netsh interface ip set dns "%NetConnectionID:"=%" dhcp
+ipconfig | find %NetConnectionID% || wmic path win32_networkadapter where NetConnectionID=%NetConnectionID% call enable
+netsh interface ip set address %NetConnectionID% static 10.177.254.1 255.255.255.0 
+netsh interface ip set dns %NetConnectionID% dhcp
 (echo %DefaultIPGateway% | find "10.177." ) || set DefaultIPGateway=%torIP%
 if not "%torIP%"=="127.0.0.1" ( 
-  start cmd /c "%meshr:/=\%\bin\sleep 5 && %meshr:/=\%\lib\DNS2SOCKS.bat %torIP% "%NetConnectionID:"=%" "%IPAddress%" %DefaultIPGateway%"
+  start cmd /c "%meshr:/=\%\bin\sleep 5 && %meshr:/=\%\lib\DNS2SOCKS.bat %torIP% %NetConnectionID% "%IPAddress%" %DefaultIPGateway%"
   badvpn-tun2socks --tundev "tap0901:%NetConnectionID%:10.177.254.1:10.177.254.0:255.255.255.0" --netif-ipaddr 10.177.254.2 --netif-netmask 255.255.255.0 --socks-server-addr %torIP%:9150
   exit
   rem if TODO BTap_Init failed then enable interface
