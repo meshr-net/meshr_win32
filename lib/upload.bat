@@ -43,4 +43,5 @@ if not "%newIP%"=="" (
       sed -i "s/IPAddress=.*/IPAddress=%newIP%/g" %meshr%/etc/wlan/meshr.net.txt
       chmod 777 %meshr%/etc/wlan/meshr.net.txt
 )
+if not "%newIP%"=="" set IPAddress=%newIP%
 cd ..

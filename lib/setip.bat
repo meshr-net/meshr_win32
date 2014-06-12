@@ -42,7 +42,7 @@ if not exist %meshr:/=\%\var\etc\olsrd.conf goto :EOF
   ))  
   %bin%\sleep 1
   %bin%\start-stop-daemon.exe start olsrd
-  echo PC ONLINE
+  echo HOST ONLINE
   goto :EOF
 )
 type %meshr:/=\%\var\etc\olsrd.conf | find "%IPAddress%" | find "255.255.255.255" && %bin%\sed -i "s/.*10.177.\+255.255.255.255.*//g" %meshr:/=\%\var\etc\olsrd.conf
