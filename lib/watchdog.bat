@@ -31,7 +31,7 @@ IF NOT EXIST  %meshr:/=\%\var\run\wifi.txt (
     %bin%\ufind %meshr:/=\%\var\run\wifi-formed.txt -mmin +15 | find "wifi" && del %meshr:/=\%\var\run\wifi-formed.txt
     %bin%\ufind %meshr:/=\%\var\run\wifi-formed.txt -mmin +2 | find "wifi" && goto :CONTINUE
     %bin%\wlan conn %guid% %ssid% %mode% %ssid%-adhoc > tmp\conn.log 
-    ( type tmp\conn.log  | find "is not correct" ) && %bin%\wlan conn %guid% %ssid% %mode% %ssid% >> tmp\conn.log
+    ( type tmp\conn.log  | find "is not correct" ) && %bin%\wlan conn %guid% %ssid% %mode% %ssid% > tmp\conn2.log
     ( type tmp\conn.log  | find "completed successfully" ) &&  echo %ssid%>%meshr:/=\%\var\run\wifi-formed.txt
     goto :CONTINUE )
   rem connecting to meshr.net
