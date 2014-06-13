@@ -48,7 +48,6 @@ IF NOT EXIST  %meshr:/=\%\var\run\wifi.txt (
 ) ELSE (
   ( type %meshr:/=\%\tmp\wlan.log | find "connected to %ssid% " ) && goto :CONTINUE
   rem disconnected: restore old settings
-  %bin%\wlan dc %guid%
   call %bin%\services.bat stop "" conn
 ) 
 :CONTINUE

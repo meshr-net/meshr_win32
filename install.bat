@@ -9,7 +9,7 @@ SET mpath=%CD:\=/%
 if "%1"=="" goto blank
 if "%1"=="postinst" goto postinst
 if "%1"=="Uninstall" (
-    if exist %mpath%\var\run\wifi.txt call %mpath%\lib\setip.bat "%mpath%\var\run\wifi.txt"
+    if exist %~dp0\var\run\wifi.txt call %~dp0\lib\setip.bat "%~dp0\var\run\wifi.txt"
     call %~dp0\bin\services.bat stop 
     call %~dp0\bin\services.bat remove confirm
     cd %~dp0
@@ -18,7 +18,7 @@ if "%1"=="Uninstall" (
     move /Y .\etc\wlan\meshr.net.txt %TEMP%\wmic.%TIME::=.%.tmp
     rm -rf %~dp0
     exit
-  ) >> %TEMP%\meshr-Uninstall.log 2>&1
+  ) > %TEMP%\meshr-Uninstall.log 2>&1
 SET mpath=%1
 SET mpath=%mpath:\=/%
 SET mpath=%mpath:"=%
