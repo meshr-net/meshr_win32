@@ -1,6 +1,6 @@
 rem run DHCP server ASAP ^> %meshr:/=\%\tmp\ds.log
 if %1=="%meshr:/=\%\etc\wlan\meshr.net.txt" if not "%IPAddress%"=="" if not "%NetConnectionID%"=="" ( netsh interface ip set address "%NetConnectionID%" static %IPAddress% %IPSubnet% %DefaultIPGateway%
-  bin\DualServer.exe -v
+  start bin\DualServer.exe -v
   goto :test
 ) 
 cd %~dp0..
@@ -22,7 +22,7 @@ echo NetConnectionID=%NetConnectionID%>> %meshr:/=\%\etc\wifi.txt
 
 for /f "tokens=*" %%f in ('type %1') do set "%%f"
 if not "%IPAddress%"=="" netsh interface ip set address "%NetConnectionID%" static %IPAddress% %IPSubnet% %DefaultIPGateway%
-if %1=="%meshr:/=\%\etc\wlan\meshr.net.txt" if not "%IPAddress%"=="" bin\DualServer.exe -v
+if %1=="%meshr:/=\%\etc\wlan\meshr.net.txt" if not "%IPAddress%"=="" start bin\DualServer.exe -v
 echo -%DefaultIPGateway% | find "." || set DefaultIPGateway=""
 echo -%DNSServerSearchOrder% | find "." && netsh interface ip set dns "%NetConnectionID%"  static %DNSServerSearchOrder% || netsh interface ip set dns "%NetConnectionID%" dhcp
 if "%IPAddress%"=="" netsh interface ip set address "%NetConnectionID%" dhcp
