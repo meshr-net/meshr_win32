@@ -18,7 +18,7 @@ rem TODO: uci get lucid.http.address
 start ""  "http://127.0.0.1:8084/luci/admin/freifunk/basics/"
 echo Press any key ...
 pause
-GOTO:EOF
+GOTO :EOF
 
 :isonline
 %meshr:/=\%\bin\grep "connected to \|Currently formed " %meshr:/=\%\tmp\wlan.log || %meshr:/=\%\bin\sleep 11
