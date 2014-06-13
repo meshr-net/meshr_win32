@@ -39,7 +39,7 @@ ipconfig | find "%NetConnectionID%" || wmic path win32_networkadapter where NetC
 netsh interface ip set address "%NetConnectionID%" static 10.177.254.1 255.255.255.0 
 netsh interface ip set dns "%NetConnectionID%" dhcp
 (echo %DefaultIPGateway% | find "10.177." ) || set DefaultIPGateway=%torIP%
-if not "%torIP%"=="127.0.0.1" ( 
+if not "%torIP%"=="127.0.0.1" curl -m 20 --proxy socks5h://%torIP%:9150 http://208.91.199.147 -o NUL && ( 
   start cmd /c "%meshr:/=\%\bin\sleep 5 && %meshr:/=\%\lib\DNS2SOCKS.bat %torIP% "%NetConnectionID%" "%IPAddress%" %DefaultIPGateway%"
   badvpn-tun2socks --tundev "tap0901:%NetConnectionID%:10.177.254.1:10.177.254.0:255.255.255.0" --netif-ipaddr 10.177.254.2 --netif-netmask 255.255.255.0 --socks-server-addr %torIP%:9150
   exit
