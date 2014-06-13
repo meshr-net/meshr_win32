@@ -35,7 +35,7 @@ IF NOT EXIST  %meshr:/=\%\var\run\wifi.txt (
     goto :CONTINUE )
   rem connecting to meshr.net
   ( type tmp\wlan.log  | find "connected to %ssid%" ) && (
-    wmic nicconfig where SettingID="{%guid%}" get DHCPEnabled,DNSServerSearchOrder,DefaultIPGateway,IPAddress,IPSubnet,Caption,DHCPServer /value | more | %bin%\sed "s/[""{}]//g" > %meshr:/=\%\var\run\wifi.txt
+    wmic nicconfig where SettingID="{%guid%}" get DHCPEnabled,DNSServerSearchOrder,DefaultIPGateway,IPAddress,IPSubnet,Caption,DHCPServer /value | more | %bin%\sed "s/[""{}]//g" | sed "s/^\(IP.*=\)[0-9\.]\+,\([0-9\.]\+\)/\1\2/g" > %meshr:/=\%\var\run\wifi.txt
     call %meshr:/=\%\lib\setip.bat "%meshr:/=\%\etc\wlan\%ssid%.txt" > %meshr:/=\%\tmp\setip.log
     type %meshr:/=\%\tmp\setip.log | %bin%\tr '[\000-\011\013-\037\177-\377]' '.' | %bin%\grep "^.\?HOST ONLINE" && goto :online
     start %meshr%/lib/tor-tun.bat ^> %meshr:/=\%\tmp\tt.log
@@ -47,8 +47,8 @@ IF NOT EXIST  %meshr:/=\%\var\run\wifi.txt (
   ) || del %meshr:/=\%\var\run\wifi-formed.txt
 ) ELSE (
   ( type %meshr:/=\%\tmp\wlan.log | find "connected to %ssid% " ) && goto :CONTINUE
-  rem disconnected: restore old settings
-  call %bin%\services.bat stop "" conn
+  rem disconnected: restore old settings in separate console
+  cmd /c %bin%\services.bat stop "" conn
 ) 
 :CONTINUE
 %bin%\sleep 10
