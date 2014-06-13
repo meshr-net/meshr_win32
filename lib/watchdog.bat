@@ -6,9 +6,10 @@ net session >nul 2>&1 || (
   bin\sudo /b /c %0 %*
   goto :EOF
 )
-if exist var\run\wifi.txt call bin\services.bat stop "" conn
-del var\run\wifi.txt var\run\wifi-formed.txt
 for /f "tokens=*" %%f in ('type etc\wifi.txt') do set "%%f"
+bin\wlan dc %guid%
+if exist var\run\wifi.txt cmd /c bin\services.bat stop "" conn
+del var\run\wifi.txt var\run\wifi-formed.txt
 for /f "tokens=*" %%f in ('type etc\wlan\%ssid%.txt') do set "%%f"
 bin\wlan conn %guid% %ssid% %mode% %ssid%-adhoc > tmp\conn.log 
 ( type tmp\conn.log  | find "is not correct" ) && bin\wlan conn %guid% %ssid% %mode% %ssid% >> tmp\conn.log

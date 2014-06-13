@@ -39,7 +39,7 @@ if not exist %meshr:/=\%\var\etc\olsrd.conf goto :EOF
     bin\sed -i "s/.*10.177.\+255.255.255.255.*//g" %meshr:/=\%\var\etc\olsrd.conf
     echo Hna4 { %IPAddress% 255.255.255.255 } >> %meshr:/=\%\var\etc\olsrd.conf
   ))  
-  bin\sleep 1
+  bin\sleep 3
   bin\start-stop-daemon.exe start olsrd
   echo HOST ONLINE
   goto :EOF
