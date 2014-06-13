@@ -5,7 +5,7 @@ rm -rf $meshr/tmp/.uci/*
 #Location auto-config
 if [ 1 ]; then
   $meshr/usr/sbin/olsrd.exe -int > $meshr/tmp/olsrd.int
-  curl -o - -A Mozilla -m 20 http://www.ip-adress.com/ip_tracer/ > $meshr/tmp/myip
+  curl -o - -A Mozilla -m 12 http://www.ip-adress.com/ip_tracer/ > $meshr/tmp/myip
   if [  -f $meshr/tmp/myip ] ; then
     lat=`cat $meshr/tmp/myip | grep 'latLng' | sed 's/.\+ lat: \([^,]\+\).\+/\1/g'`
     lon=`cat $meshr/tmp/myip | grep 'latLng' | sed 's/.\+ lng: \([^ ]\+\).\+/\1/g'`

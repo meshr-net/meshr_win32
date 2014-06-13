@@ -12,6 +12,8 @@ for /f "tokens=1 delims=. " %%f in ('route print ^| find "TAP-"') do route add 0
 for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wifi.txt') do set "%%f"
 netsh interface ip set dns "%NetConnectionID%" static 10.177.254.1
 if not "%4"=="" route delete 0.0.0.0 mask 0.0.0.0 %4
+if not "%4"=="" route delete 0.0.0.0 mask 0.0.0.0 %4
+route -4 print
 set IPAddress=%3
 rem get non random ip
 ( echo %IPAddress% | grep -E "10.177.(1(28|29|[3-5][0-9])|2[0-9][0-9])" || echo IP=%IPAddress% | grep -v "." ) && (
