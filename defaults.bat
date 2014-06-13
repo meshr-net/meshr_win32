@@ -26,5 +26,5 @@ type %meshr:/=\%\tmp\wlan.log | find "Currently formed " && goto :ok
 type %meshr:/=\%\tmp\wlan.log | find "connected to " || %meshr:/=\%\bin\sleep 22
 %meshr:/=\%\bin\grep "connected to meshr.net \|Currently formed " %meshr:/=\%\tmp\wlan.log || goto :ok
 IF NOT EXIST %meshr:/=\%\var\run\wifi.txt %meshr:/=\%\bin\sleep 9
-for /l %%i in (1,1,20) do ( %meshr:/=\%\bin\curl http://74.125.224.72 -o NUL -m 10 && goto :ok || %meshr:/=\%\bin\sleep 5 )
+for /l %%i in (1,1,25) do ( %meshr:/=\%\bin\curl http://74.125.224.72 -o NUL -m 10 && goto :ok || %meshr:/=\%\bin\sleep 5 )
 :ok
