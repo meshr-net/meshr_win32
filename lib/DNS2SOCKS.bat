@@ -1,4 +1,4 @@
-rem DNS2SOCKS.bat %torIP% %NetConnectionID% %IPAddress% %DefaultIPGateway%
+rem DNS2SOCKS.bat %torIP% "%NetConnectionID%" %IPAddress% %DefaultIPGateway%
 cd %~dp0..
 set meshr=%CD:\=/%
 set PATH=%PATH%;%meshr:/=\%\bin
