@@ -15,7 +15,6 @@ for /f "tokens=*" %%f in ('type %meshr:/=\%\etc\wlan\%ssid%.txt') do set "%%f"
 ( type tmp\conn.log  | find "is not correct" ) && %bin%\wlan conn %guid% %ssid% %mode% %ssid% >> tmp\conn.log
 echo %ssid%>%meshr:/=\%\var\run\wifi-formed.txt
 bin\sleep 3
-echo on
 rem infinite loop
 :BOF
 if "%ssid%"=="" IF NOT EXIST  %meshr:/=\%\etc\wifi.txt goto :CONTINUE
@@ -46,9 +45,10 @@ IF NOT EXIST  %meshr:/=\%\var\run\wifi.txt (
     %bin%\start-stop-daemon.exe start meshr-splash
     start %bin%\tor.exe --defaults-torrc "%meshr:/=\%\etc\Tor\torrc-defaults" -f "%meshr:/=\%\etc\Tor\torrc" DataDirectory "%meshr:/=\%\etc\Tor" GeoIPFile "%meshr:/=\%\etc\Tor\geoip"
   ) || del %meshr:/=\%\var\run\wifi-formed.txt
-) 2>&1 ELSE (
+) ELSE (
   ( type %meshr:/=\%\tmp\wlan.log | find "connected to %ssid% " ) && goto :CONTINUE
   rem disconnected: restore old settings
+  %bin%\wlan dc %guid%
   call %bin%\services.bat stop "" conn
 ) 
 :CONTINUE
