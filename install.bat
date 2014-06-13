@@ -18,7 +18,7 @@ if "%1"=="Uninstall" (
     move /Y .\etc\wlan\meshr.net.txt %TEMP%\wmic.%TIME::=.%.tmp
     rm -rf %~dp0
     exit
-  ) > %TEMP%\meshr-Uninstall.log 2>&1
+  ) >> %TEMP%\meshr-Uninstall.log 2>&1
 SET mpath=%1
 SET mpath=%mpath:\=/%
 SET mpath=%mpath:"=%
@@ -27,9 +27,10 @@ bin\setx meshr %mpath% && set meshr=%mpath%
 wmic ENVIRONMENT CREATE NAME="meshr", VARIABLEVALUE="%meshr%" , username="NT AUTHORITY\SYSTEM" || wmic ENVIRONMENT SET NAME="meshr", VARIABLEVALUE="%meshr%" , username="NT AUTHORITY\SYSTEM"
 
 wmic nic where "Name like 'TAP-Win%%'" get NetConnectionID /value | find "=" || start "Installing TAP/TUN adapter" %CD%\bin\tap-windows.exe /S /SELECT_UTILITIES=1
-
-bin\git clone -b release meshr.bundle %1 || ( echo "can't clone"
-  bin\git clone -b release meshr.bundle
+set branch=release
+bin\git bundle list-heads meshr.bundle | find "/master" && set branch=master
+bin\git clone -b %branch% meshr.bundle %1 || ( echo "can't clone"
+  bin\git clone -b %branch% meshr.bundle
   call bin\services.bat stop
   copy /Y "%mpath:/=\%\etc\config\*" meshr\etc\config
   xcopy /Y /C /E /H meshr %mpath:/=\%\ )
@@ -47,7 +48,7 @@ cd %meshr:/=\%\etc\config
 git ls-files | tr '\n' ' ' | xargs git update-index --assume-unchanged 
 cd %meshr:/=\%
 git fetch origin
-git reset --hard origin/release
+git reset --hard origin/%branch%
 call lib\bssids.bat %meshr% > tmp\bssids.log
 wlan sp %guid% etc/wlan/meshr.net.xml
 touch -am %meshr%/usr/lib/ipkg/lists/meshr
