@@ -10,7 +10,6 @@ echo /status | nc 127.0.0.1 9090 > %meshr%/tmp/olsrd.status || goto :try_gateway
 rem wait for peer HNA
 type %meshr:/=\%\tmp\olsrd.status | find "destination"": ""10.177." || ( sleep 15 && echo /status | nc 127.0.0.1 9090 > %meshr%/tmp/olsrd.status ) 
 type %meshr:/=\%\tmp\olsrd.status | find "destination"": ""10.177." || ( sleep 15 && echo /status | nc 127.0.0.1 9090 > %meshr%/tmp/olsrd.status ) 
-type %meshr:/=\%\tmp\olsrd.status | find "destination"": ""10.177." || ( sleep 15 && echo /status | nc 127.0.0.1 9090 > %meshr%/tmp/olsrd.status ) 
 for /f "tokens=2 delims=:," %%f in ('type %meshr:/=\%\tmp\olsrd.status ^| find "destination"": ""10.177."') do ( nc -z %%f 9150 && set torIP=%%f && goto :break )
 for /f "tokens=2 delims=:," %%f in ('type %meshr:/=\%\tmp\olsrd.status ^| find "remoteIP"": ""10.177."') do ( nc -z %%f 9150 && set torIP=%%f && goto :break )
 :break
