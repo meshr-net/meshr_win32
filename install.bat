@@ -9,7 +9,7 @@ SET mpath=%CD:\=/%
 if "%1"=="" goto blank
 if "%1"=="postinst" goto postinst
 if "%1"=="Uninstall" (
-    if exist %mpath%\var\run\wifi.txt call %mpath%\lib\setip.bat %mpath%\var\run\wifi.txt 
+    if exist %mpath%\var\run\wifi.txt call %mpath%\lib\setip.bat "%mpath%\var\run\wifi.txt"
     call %~dp0\bin\services.bat stop 
     call %~dp0\bin\services.bat remove confirm
     cd %~dp0
