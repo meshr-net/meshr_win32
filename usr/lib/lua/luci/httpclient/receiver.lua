@@ -86,7 +86,8 @@ local function splice_async(sock, pipeout, pipein, file, cb)
 		-- Pipe -> File
 		repeat
 			nixio.poll(pollfile, 15000)
-		
+      
+      buf = nixio.file_read(pipein)
 			stat, code, msg = nixio.splice(pipein, file, ssize, smode)
 			if stat == nil then
 				return stat, code, msg
