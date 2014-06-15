@@ -25,7 +25,7 @@ reload() {
 
 restart() {
 	trap '' TERM
-	stop "$@"
+	#stop "$@"
 	start "$@"
 }
 

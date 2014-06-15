@@ -1,4 +1,4 @@
-init.d/*
-rc.common
-uci-defaults/*
-config/profile_*
+etc/init.d/*
+etc/rc.common
+etc/uci-defaults/*
+etc/config/profile_*

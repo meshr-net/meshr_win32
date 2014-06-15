@@ -784,7 +784,7 @@ start() {
 		fi
 	fi
 	[ -z "$OLSRD_CONFIG_FILE" ] && return 1
-
+  return 0
 	local bindv6only='0'
 	if [ "$OLSRD_IPVERSION_6AND4" -ne 0 ]; then
 		bindv6only="$(sysctl -n net.ipv6.bindv6only)"

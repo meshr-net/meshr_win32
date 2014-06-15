@@ -257,6 +257,7 @@ function case_insensitive_pattern(pattern)
 end
 
 function file_exists(name)
+    -- hostos:sub(1,3) == 'win' and ??
    local f=io.open( name:sub(1,1) == '/' and rootfs .. name or name,"r")
    if f~=nil then io.close(f) return true else return false end
 end

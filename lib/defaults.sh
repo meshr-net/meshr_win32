@@ -39,13 +39,14 @@ fi
 if [  -f $meshr/tmp/bssids.txt ] ; then
   #netsh wlan show  networks | grep -e "^SSID" | sed -e "s/.\+ : //g" > $meshr/tmp/wlans.txt
   #netsh wlan show  networks  mode=bssid  > $meshr/tmp/bssids.txt
-  grep "^SSID: .\+" $meshr/tmp/bssids.txt | cut -c 7- > $meshr/tmp/wlans.txt
+  grep "^SSID" $meshr/tmp/bssids.txt | sed "s/.*:  //g" > $meshr/tmp/wlans.txt
   uci show | grep -e "profile_.*.profile.ssid" | sed -e "s/.\+=//g"  > $meshr/tmp/ssids.txt
   echo meshr.net >> $meshr/tmp/wlans.txt
 
   for net in $(grep -Fx -f $meshr/tmp/wlans.txt $meshr/tmp/ssids.txt | tr " " "\n")
   do
-    comm=`uci show | grep -e "profile_.*=$net" | sed -e "s/profile_\(.*\).profile.ssid=.\+/\1/g"`
+    comm=`uci show | grep -m 1 -e "profile_.*=$net" | sed -e "s/profile_\(.*\).profile.ssid=.\+/\1/g"`
+    [ -n $comm ] && break
   done
 fi
 [ -z $comm ] && comm=meshr
