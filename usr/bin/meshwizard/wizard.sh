@@ -142,9 +142,6 @@ echo "+ The wizard has finished and the router will reboot now."
 ##./olsrd reload generates /var/etc/olsrd.conf
 cd $meshr/etc/init.d/ && ./olsrd reload && cd -
 #restart watchdog
-while [ -f $meshr/var/run/wifi.txt ]; do
-  sleep 1
-done
 $meshr/bin/start-stop-daemon.exe stop meshr-watchdog
 while [ ! `$meshr/bin/start-stop-daemon.exe status meshr-watchdog | grep "S.T.O.P.P.E.D" --binary-files=text ` ]; do sleep 1; done
 $meshr/bin/start-stop-daemon.exe start meshr-watchdog

@@ -124,10 +124,7 @@ COMMENT1
     guid=`cat $meshr/tmp/olsrd2.int | grep $device | sed "s/.*{\(.*\)}.*/\1/g"`
     
     wlan dc $guid
-    while [ -f $meshr/var/run/wifi.txt ]
-    do
-      sleep 1
-    done
+    while [ -f $meshr/var/run/wifi.txt ]; do sleep 1; done
     $meshr/bin/start-stop-daemon.exe stop meshr-watchdog
     
     uci set wireless.$device\_iface.guid=$guid
