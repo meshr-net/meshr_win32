@@ -96,12 +96,13 @@ wifi_fixup_hwmode() {
 }
 
 wifi_updown() {
-set -x	
+#set -x	
 	[ enable = "$1" ] && {
 		#wifi_updown disable "$2"
 		scan_wifi
 	}
 	for device in ${2:-$DEVICES}; do (
+<<COMMENT1
 		config_get disabled "$device" disabled
 		[ 1 == "$disabled" ] && {
 			echo "'$device' is disabled"
@@ -114,7 +115,7 @@ set -x
 		else
 			echo "$device($iftype): Interface type not supported"
 		fi
-		
+COMMENT1		
 		channel="$(uci -q get wireless.$device.channel)" 
     ssid="$(uci -q get wireless.$device\_iface.ssid)" 
     mode="$(uci -q get wireless.$device\_iface.mode)"
@@ -218,6 +219,7 @@ set_wifi_down() {
 }
 
 scan_wifi() {
+  return 0
 	local cfgfile="$1"
 	DEVICES=
 	config_cb() {

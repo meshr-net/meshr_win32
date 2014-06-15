@@ -11,7 +11,7 @@ apply_config() {
 
 	echo "$2" > "$meshr/var/run/luci-reload-status"
 #"${exec/^\//$meshr}"
-echo ${exec/\/usr/$meshr/usr}
+echo apply_config: ${exec/\/usr/$meshr/usr}
 	[ -n "$init" ] && reload_init "$2" "$init" "$test"
 	[ -n "$exec" ] && reload_exec "$2" "$meshr$exec" "$test"
 }

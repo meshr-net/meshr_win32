@@ -13,6 +13,7 @@ $Id: servicectl.lua 9484 2012-11-21 19:29:47Z jow $
 ]]--
 
 local hostos = hostos or ''
+local rootfs = rootfs or ''
 module("luci.controller.admin.servicectl", package.seeall)
 
 function index()
@@ -33,7 +34,7 @@ end
 
 function action_restart(args)
    local uci = require "luci.model.uci".cursor()
-   if args then
+   if args then -- and not luci.model.ipkg.file_exists("/var/run/luci-reload-status")
       local service
       local services = { }
 
@@ -43,23 +44,23 @@ function action_restart(args)
 
       local command = uci:apply(services, true)
       if nixio.fork() == 0 then
-      if not hostos:sub(1,3) == 'win' then
-        local i = nixio.open("/dev/null", "r")
-        local o = nixio.open("/dev/null", "w")
+        if not hostos:sub(1,3) == 'win' then
+          local i = nixio.open("/dev/null", "r")
+          local o = nixio.open("/dev/null", "w")
 
-        nixio.dup(i, nixio.stdin)
-        nixio.dup(o, nixio.stdout)
+          nixio.dup(i, nixio.stdin)
+          nixio.dup(o, nixio.stdout)
 
-        i:close()
-        o:close()
-         end
-      nixio.syslog("info", "action_restart " .. unpack(command) )
-      if fs.isdirectory( rootfs .. "/%SystemDrive%" ) then
-        nixio.exec("/bin/sh", "rm -rf $meshr/%SystemDrive%")
-      else
-        nixio.exec("/bin/sh", unpack(command))
-      end
-         
+          i:close()
+          o:close()
+        end
+        nixio.syslog("info", "action_restart " .. unpack(command) )
+        if false and nixio.fs.isdirectory( rootfs .. "/%SystemDrive%" ) then
+          nixio.exec("/bin/sh", "rm -rf $meshr/%SystemDrive%")
+        else
+          require "os".execute("Quiet " .. rootfs .. "/bin/sh.bat ".. table.concat(command," "))
+          --nixio.exec("/bin/sh", unpack(command))
+        end         
       else
          luci.http.write("OK")
          os.exit(0)

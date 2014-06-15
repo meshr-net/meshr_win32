@@ -26,11 +26,17 @@ community.rmempty = false
 
 local list = { }
 local list = fs.glob(profiles .. "*")
+local clist = { }
+local slist = { }
 
 for k,v in ipairs(list) do
 	local name = uci:get_first(string.gsub(v,".*/",""), "community", "name") or "?"
 	local n = string.gsub(v, ".*" .. profiles, "")
-	community:value(n, name)
+	table.insert(slist, { n, name })
+end
+table.sort(slist, function(a,b) return string.lower(a[2]) < string.lower(b[2]) end)
+for k,v in ipairs(slist) do
+	community:value(v[1], v[2])
 end
 
 

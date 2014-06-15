@@ -15,7 +15,9 @@ $Id$
 require "nixio.util"
 local nixio = require "nixio"
 local httpc = require "luci.httpclient"
+local http = require "luci.http"
 local ltn12 = require "luci.ltn12"
+local pairs = pairs
 
 local print, tonumber, require, unpack = print, tonumber, require, unpack
 
@@ -86,8 +88,11 @@ local function splice_async(sock, pipeout, pipein, file, cb)
 		-- Pipe -> File
 		repeat
 			nixio.poll(pollfile, 15000)
-      
-      buf = nixio.file_read(pipein)
+
+    buf = nixio.file_read(pipein)
+      print(tostring(#buf))
+--print("xxx")
+      --require "luci.http".write(buf)		
 			stat, code, msg = nixio.splice(pipein, file, ssize, smode)
 			if stat == nil then
 				return stat, code, msg
@@ -224,16 +229,34 @@ function request_to_file(uri, target, options, cbs)
 		end
 	end
 	
-	if not file then
-		return nil, -5, "no target given"
-	end
-
 	local chunked = resp.headers["Transfer-Encoding"] == "chunked"
 	local stat
 
-	-- Write the buffer to file
-	file:writeall(buffer)
-	
+	if not file then
+    if false then
+      for k,v in pairs(resp.headers) do
+        print(k .. ' : ' .. v); 
+      end
+      for k,v in pairs(resp.headers) do
+        if k == 'Server' or k == 'Pragma'  then
+        else  
+          http.header(k, v); 
+        end
+      end
+    end
+    http.write(buffer)
+    local src = sock:blocksource()
+    
+    -- Fallback to read/write
+    stat, code, msg = ltn12.pump.all(src, src, http_step)
+    http.close()
+    sock:close()
+    return stat and true, code, msg
+  else    
+    -- Write the buffer to file
+    file:writeall(buffer)
+	end
+  
 	repeat
 		if not options.splice or not sock:is_socket() or chunked then
 			break
@@ -276,7 +299,7 @@ function request_to_file(uri, target, options, cbs)
 		return stat, code, msg
 	until true
 	
-	local src = chunked and httpc.chunksource(sock) or sock:blocksource()
+  local src = file and chunked and httpc.chunksource(sock) or sock:blocksource()
 	local snk = file:sink()
 	
 	if cbs.on_write then
@@ -288,9 +311,20 @@ function request_to_file(uri, target, options, cbs)
 	
 	-- Fallback to read/write
 	stat, code, msg = ltn12.pump.all(src, snk)
-
 	file:close()
 	sock:close()
 	return stat and true, code, msg
 end
 
+function http_step(src, snk)
+    local chunk, src_err = src()
+    if not chunk then
+      nixio.syslog("info", ">>")
+      nixio.nanosleep(10000000)
+      chunk, src_err = src()
+      nixio.syslog("info", tostring(#chunk))
+    end
+    http.write(chunk)
+    if chunk then return 1
+    else return nil, src_err end
+end
