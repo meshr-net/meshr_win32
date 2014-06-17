@@ -2,7 +2,7 @@
 # Copyright (C) 2006 OpenWrt.org
 
 . $meshr/lib/functions.sh
-
+#set -x
 usage() {
 	cat <<EOF
 Usage: $0 [down|detect]
@@ -115,7 +115,7 @@ wifi_updown() {
 		else
 			echo "$device($iftype): Interface type not supported"
 		fi
-COMMENT1		
+COMMENT1
 		channel="$(uci -q get wireless.$device.channel)" 
     ssid="$(uci -q get wireless.$device\_iface.ssid)" 
     mode="$(uci -q get wireless.$device\_iface.mode)"
@@ -163,7 +163,7 @@ COMMENT1
       #uci set meshwizard.general.ip4addr=$ip4addr
       uci commit meshwizard
       #windev=`cat $meshr/tmp/olsrd2.int | grep $device | sed "s/.*} \(.*\)/\1/g"`
-      IP="$(uci -q get wireless.$device\_iface.IP)"
+      #IP="$(uci -q get wireless.$device\_iface.IP)"
       #( wlan conn $guid $ssid $mode $ssid | grep "Got error" ) && wlan conn $guid $ssid $mode $ssid-adhoc
       #cmd "/c ${meshr//\//\\}\\lib\\watchdog.bat fg"
     }
@@ -216,7 +216,6 @@ set_wifi_down() {
 }
 
 scan_wifi() {
-  return 0
 	local cfgfile="$1"
 	DEVICES=
 	config_cb() {
