@@ -36,6 +36,7 @@ IF NOT EXIST var\run\wifi.txt (
   rem connecting to meshr.net
   type tmp\wlan.log  | find "connected to %ssid%" && call :connected || del var\run\wifi-formed.txt
   type tmp\wlan.log  | find "connected to meshr.net" && call :connected || del var\run\wifi-formed.txt
+  sleep 30
 ) ELSE (
   ( type tmp\wlan.log | find "connected to %ssid% " ) && goto :CONTINUE
   rem disconnected: restore old settings in separate console
@@ -49,10 +50,11 @@ rem >bin\..\tmp\wd1.%TIME::=.%.log 2>&1
 :connected
   wmic nicconfig where SettingID="{%guid%}" get DHCPEnabled,DNSServerSearchOrder,DefaultIPGateway,IPAddress,IPSubnet,Caption,DHCPServer /value | more | bin\sed "s/[""{}]//g" | bin\sed "s/^\(IP.*=\)[0-9\.]\+,\([0-9\.]\+\)/\1\2/g" > var\run\wifi.txt
   call lib\setip.bat "%meshr:/=\%\etc\wlan\%ssid%.txt" > tmp\setip.log
-  if "ONLINE"=="true" && goto :online
+  if "%ONLINE%"=="false" (
   start %meshr%/lib/tor-tun.bat ^> tmp\tt.log
   bin\start-stop-daemon.exe start meshr-splash
   goto :CONTINUE
-  :online
-  bin\start-stop-daemon.exe start meshr-splash
-  start bin\tor.exe --defaults-torrc "%meshr:/=\%\etc\Tor\torrc-defaults" -f "%meshr:/=\%\etc\Tor\torrc" DataDirectory "%meshr:/=\%\etc\Tor" GeoIPFile "%meshr:/=\%\etc\Tor\geoip"
+) 
+bin\start-stop-daemon.exe start meshr-splash
+start bin\tor.exe --defaults-torrc "%meshr:/=\%\etc\Tor\torrc-defaults" -f "%meshr:/=\%\etc\Tor\torrc" DataDirectory "%meshr:/=\%\etc\Tor" GeoIPFile "%meshr:/=\%\etc\Tor\geoip"
+goto :CONTINUE

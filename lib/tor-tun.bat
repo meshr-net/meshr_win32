@@ -45,3 +45,4 @@ if not "%torIP%"=="127.0.0.1" (( curl -m 10 --proxy socks5h://%torIP%:9150 http:
   start bin\badvpn-tun2socks --tundev "tap0901:%NetConnectionID%:10.177.254.1:10.177.254.0:255.255.255.0" --netif-ipaddr 10.177.254.2 --netif-netmask 255.255.255.0 --socks-server-addr %torIP%:9150
   rem if TODO BTap_Init failed then enable interface
 ) || goto :BOF )
+exit
