@@ -31,7 +31,7 @@ if not %1=="%meshr:/=\%\etc\wlan\meshr.net.txt" goto :EOF
 :test
 bin\start-stop-daemon.exe stop olsrd
 rem test if offline
-( bin\curl http://74.125.224.72 -o NUL -m 10 || ( bin\curl http://74.125.224.72 -o NUL -m 10 ) ) && (
+( bin\curl http://74.125.224.72 -o NUL -m 10 || ( bin\curl http://74.125.224.72 -o NUL -m 10 ) ) && set ONLINE=true && (
   if "%IPAddress%"=="" ( call lib\upload.bat
     netsh interface ip set address "%NetConnectionID%" static %IPAddress% %IPSubnet% %DefaultIPGateway% )
     if not "%IPAddress%"=="" ( type %meshr:/=\%\var\etc\olsrd.conf | find "%IPAddress%" | find "255.255.255.255"  || ( 
@@ -42,6 +42,7 @@ rem test if offline
   echo HOST ONLINE
   goto :EOF
 )
+set ONLINE=false
 if not exist %meshr:/=\%\var\etc\olsrd.conf goto :EOF
 type %meshr:/=\%\var\etc\olsrd.conf | find "%IPAddress%" | find "255.255.255.255" && bin\sed -i "s/.*10.177.\+255.255.255.255.*//g" %meshr:/=\%\var\etc\olsrd.conf
 bin\sleep 1

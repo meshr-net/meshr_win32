@@ -2,9 +2,12 @@
 #set -x
 rm -rf $meshr/tmp/.uci/*
 
+$meshr/usr/sbin/olsrd.exe -int > $meshr/tmp/olsrd.int
+$meshr/usr/sbin/olsrd.exe -d 2 -int >  $meshr/tmp/olsrd2.int
+wlan ei  | grep "GUID" | sed "s/.*: //g" > $meshr/tmp/guids.log
+
 #Location auto-config
 if [ 1 ]; then
-  $meshr/usr/sbin/olsrd.exe -int > $meshr/tmp/olsrd.int
   curl -o - -A Mozilla -m 12 http://www.ip-adress.com/ip_tracer/ > $meshr/tmp/myip
   if [  -f $meshr/tmp/myip ] ; then
     lat=`cat $meshr/tmp/myip | grep 'latLng' | sed 's/.\+ lat: \([^,]\+\).\+/\1/g'`
@@ -51,20 +54,15 @@ if [  -f $meshr/tmp/bssids.txt ] ; then
 fi
 [ -z $comm ] && comm=meshr
 uci set meshwizard.community.name="$comm"
-for ifs in $(cat $meshr/tmp/olsrd.int | grep -e "if[0-9]\+" | sed -e "s/\(if[^:]\+\).\+/\1/g" | tr " " "\n")
-do
+
+cat $meshr/tmp/olsrd2.int | grep -e "if[0-9]\+" | while read line; do
+  ifs=`echo $line | sed -e "s/\(if[^:]\+\).\+/\1/g"`
+  guid=`echo $line | sed -e "s/.*{\(.*\)}.*/\1/g"`
   uci set network.$ifs="interface"
   uci set network.$ifs.ifname="$ifs"
-  uci commit network 
+  ( echo $line | grep -q "if[^:]\+: +" || grep -iq "$guid" $meshr/tmp/guids.log ) && uci set meshwizard.netconfig.${ifs}_config=1
 done
-filter="."
-cat $meshr/tmp/olsrd.int | grep -e "if[0-9]\+" | grep ": $filter " || filter="?"
-cat $meshr/tmp/olsrd.int | grep -e "if[0-9]\+" | grep ": $filter " || filter="-"
-for ifs in $(cat $meshr/tmp/olsrd.int | grep -e "if[0-9]\+" | grep -m 1 ": + " | sed -e "s/\(if[^:]\+\).\+/\1/g" | tr " " "\n")
-do
-  uci set meshwizard.netconfig.${ifs}_config=1
-  uci set meshwizard.netconfig.${ifs}_ip4addr=$ip4addr
-done  
+uci commit network 
 uci commit meshwizard
 
 $meshr/usr/bin/meshwizard/wizard.sh
