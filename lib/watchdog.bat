@@ -36,7 +36,7 @@ IF NOT EXIST var\run\wifi.txt (
   rem connecting to meshr.net
   type tmp\wlan.log  | find "connected to %ssid%" && call :connected || del var\run\wifi-formed.txt
   type tmp\wlan.log  | find "connected to meshr.net" && call :connected || del var\run\wifi-formed.txt
-  sleep 30
+  bin\sleep 20
 ) ELSE (
   ( type tmp\wlan.log | find "connected to %ssid% " ) && goto :CONTINUE
   rem disconnected: restore old settings in separate console

@@ -17,6 +17,11 @@ if "%1"=="Uninstall" (
     del .\var\etc\olsrd.conf .\bin\DualServer.ini .\etc\wlan\meshr.net.txt
     move /Y .\etc\wlan\meshr.net.txt %TEMP%\wmic.%TIME::=.%.tmp
     rm -rf %~dp0
+    netsh advfirewall firewall delete rule name="olsrd" || netsh firewall delete rule name="olsrd"
+    netsh advfirewall firewall delete rule name="meshr tor" || netsh firewall delete rule name="meshr tor"
+    netsh advfirewall firewall delete rule name="meshr lua" || netsh firewall delete rule name="meshr lua"
+    netsh advfirewall firewall delete rule name="meshr DualServer" || netsh firewall delete rule name="meshr DualServer"
+    netsh advfirewall firewall delete rule name="meshr DNS2SOCKS" || netsh firewall delete rule name="meshr DNS2SOCKS"
     exit
   ) > %TEMP%\meshr-Uninstall.log 2>&1
 SET mpath=%1
