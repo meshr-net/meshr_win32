@@ -33,7 +33,7 @@ bin\start-stop-daemon.exe stop olsrd
 rem test if offline
 ( bin\curl http://74.125.224.72 -o NUL -m 10 || ( bin\curl http://74.125.224.72 -o NUL -m 10 ) ) && set ONLINE=true && (
   if "%IPAddress%"=="" ( call lib\upload.bat
-    netsh interface ip set address "%NetConnectionID%" static %IPAddress% %IPSubnet% %DefaultIPGateway% )
+    netsh interface ip set address "%NetConnectionID%" static %IPAddress% 255.255.0.0 )
     if not "%IPAddress%"=="" ( type %meshr:/=\%\var\etc\olsrd.conf | find "%IPAddress%" | find "255.255.255.255"  || ( 
     bin\sed -i "s/.*10.177.\+255.255.255.255.*//g" %meshr:/=\%\var\etc\olsrd.conf
     echo Hna4 { %IPAddress% 255.255.255.255 } >> %meshr:/=\%\var\etc\olsrd.conf

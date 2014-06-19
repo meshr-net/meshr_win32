@@ -15,7 +15,7 @@ git status | grep -e "modified:" && git status | grep -e "modified:" | cut -c 14
 IF "%1"=="" IF EXIST  push.bat tar --list --file %tar% | grep "." && goto :end
 type %meshr:/=\%\.git\index.lock && (del %meshr:/=\%\.git\index.lock || goto :end)
 set branch=release
-IF "%1"=="master" ( set branch=master && git reset &&  git checkout . )
+IF "%1"=="master" ( set branch=master && goto :reset )
 git pull origin %branch% < NUL || ( 
   git config user.email "user@meshr.net"  
   git config user.name "%USERNAME% %USERDOMAIN%"  
@@ -28,16 +28,17 @@ git pull origin %branch% < NUL || (
   git pull origin %branch% < NUL > tmp\git.log 2>&1 || (
       grep "fatal: unable to access" tmp\git.log  && goto :ipkg
       grep "." tmp\git.log || goto :ipkg
+      :reset
       git fetch origin %branch%
       type %meshr:/=\%\.git\index.lock && (del %meshr:/=\%\.git\index.lock || goto :end)
       git reset --merge  < NUL
       tar cf %backup% --exclude-vcs --ignore-failed-read  --ignore-command-error -X etc/tarignore etc/* bin/DualServer.ini bin/BluetoothView.cfg 
       git reset --hard origin/%branch% < NUL || ( 
-        call %meshr:/=\%\bin\services.bat stop
+        call bin\services.bat stop
         git reset  --hard  origin/%branch% < NUL
         sleep 9 )
       tar xf %backup%  -C . --overwrite --ignore-failed-read  --ignore-command-error
-      call %meshr:/=\%\bin\services.bat start
+      call bin\services.bat start
     )
 )
 :ipkg
