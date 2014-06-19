@@ -15,7 +15,7 @@
    anonymized by TOR.
 
    Use the links below to download and install Meshr on Windows
-   http://www.meshr.net/index.php?title=Download
+   https://github.com/meshr-net/meshr_win32/releases/download/v0.1.0/meshr-0.1_win32.exe
 
 ### Installation requirements
    
@@ -31,6 +31,7 @@
      * Wireless network adapter should be turned on.
      * Windows 8: Wireless devices should be turned on (Click "Logo
        key"+C : Settings -> Change PC Settings -> Wireless -> turn on)
+     * Run meshr-0.1_win32.exe /S for silent installation.
        
    Security reminder: Meshr requires Administrator privileges to install.
    
@@ -61,14 +62,17 @@
 
   Automatic configuration
   
-   Meshr runs automatic configuration script during installation (it
-   is %meshr%/defaults.bat batch file). More info
+   Meshr runs automatic configuration script during installation (it is
+   %meshr%/defaults.bat batch file). More info
    
   Automatic updates
   
    Meshr does checks for updates every 24 hours (it is %meshr%/update.bat
-   batch file). It checks last version tag in git and downloads it if it
-   is new. It also updates ipkg software list.
+   batch file, you can also run it manually from Start->Run Windows
+   menu). It checks release branch in git and downlo ads modified files
+   if there are new ones. You can also run %meshr%/lib/update-master.bat
+   batch file manually to update to the most recent version from master
+   (pre-release) branch. It also updates ipkg software list.
 
 ### How it works?
        
@@ -105,8 +109,9 @@ Everyday use
                  TOR proxy servers for anonymous Internet access.
               3. DualServer - it is DHCP and DNS server in one. It
                  provides IP address, default gateway and DNS server for
-                 new user. This settings are necessary to direct new user
-                 to your welcome page with meshr software download link.
+                 new users. This settings are necessary to direct new
+                 user to your welcome page with meshr software download
+                 link.
               4. olsrd - it is routing software that provides
                  connectivity between mesh nodes even if there is no
                  direct connection between them. It also advertised TOR
@@ -122,9 +127,9 @@ Everyday use
             from it, then meshr launches on your computer olsrd routing
             service and looks for available TOR proxy servers. Once it
             finds working one it launches (in "%meshr%/lib/tor-tun.bat"):
-              1. badvpn-tun2socks It connects your TAP adapter with to
-                 TOR proxy server. As a result new local internet gateway
-                 is created: 10.177.254.2
+              1. badvpn-tun2socks It connects your TAP adapter with a TOR
+                 proxy server from mesh network. As a result new local
+                 internet gateway is created: 10.177.254.2
               2. dns2socks It creates local dns server 10.177.254.1 for
                  resolving Internet domains thru TOR socks server.
               3. Default gateway is set to 10.177.254.2 and dns is set to

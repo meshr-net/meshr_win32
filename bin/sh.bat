@@ -1,5 +1,5 @@
 set wf=%SYSTEMROOT:\=/%
 set wf=/%wf::=%
 %meshr%/bin/sh.exe -c "export meshr=%meshr%; export PATH=/${meshr/:/}/bin:%wf%:%wf%/System32:%wf%/System32/Wbem:$PATH; %*"
-rem >> %meshr%/log
+rem > %meshr:/=\%\tmp\sh.log 2>&1
 rem pause

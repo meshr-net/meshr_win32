@@ -46,7 +46,7 @@ function prepare_daemon(config, server)
       local host, port = addr:match("(.-):?([^:]*)$")
       if smode then
         local uci = require("luci.model.uci").cursor()
-        host = fs.readfile(rootfs .. "/etc/wlan/meshr.net.txt"):match( "IPAddress=[^\n]-([%d%.]+)") or '' --uci:get("meshwizard", "general", "ip4addr")
+        host = fs.readfile(rootfs .. "/etc/config/meshwizard"):match( "ip4addr' '([%d%.]+)'") or ''
         port = 80
       end
       if not host then

@@ -18,7 +18,7 @@
 									window.setTimeout(function() {
 										e.parentNode.style.display = 'none';
 										<% if redirect then %>location.href='<%=redirect%>';<% end %>
-									}, 1000);
+									}, 2200);
 								}
 							}
 							else
@@ -26,13 +26,13 @@
 								var e = document.getElementById('cbi-apply-<%=id%>-status');
 								if( e && x.responseText ) e.innerHTML = x.responseText;
 
-								window.setTimeout(checkfinish, 1000);
+								window.setTimeout(checkfinish, 2200);
 							}
 						}
 					);
 				}
 
-				window.setTimeout(checkfinish, 1000);
+				window.setTimeout(checkfinish, 4400);
 			}
 		);
 	//]]></script>

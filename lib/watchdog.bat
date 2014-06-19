@@ -51,10 +51,10 @@ rem >bin\..\tmp\wd1.%TIME::=.%.log 2>&1
   wmic nicconfig where SettingID="{%guid%}" get DHCPEnabled,DNSServerSearchOrder,DefaultIPGateway,IPAddress,IPSubnet,Caption,DHCPServer /value | more | bin\sed "s/[""{}]//g" | bin\sed "s/^\(IP.*=\)[0-9\.]\+,\([0-9\.]\+\)/\1\2/g" > var\run\wifi.txt
   call lib\setip.bat "%meshr:/=\%\etc\wlan\%ssid%.txt" > tmp\setip.log
   if "%ONLINE%"=="false" (
-  start %meshr%/lib/tor-tun.bat ^> tmp\tt.log
+  if "%ssid%"=="meshr.net" start %meshr%/lib/tor-tun.bat ^> tmp\tt.log
   bin\start-stop-daemon.exe start meshr-splash
   goto :CONTINUE
 ) 
 bin\start-stop-daemon.exe start meshr-splash
-start bin\tor.exe --defaults-torrc "%meshr:/=\%\etc\Tor\torrc-defaults" -f "%meshr:/=\%\etc\Tor\torrc" DataDirectory "%meshr:/=\%\etc\Tor" GeoIPFile "%meshr:/=\%\etc\Tor\geoip"
+if "%ssid%"=="meshr.net" start bin\tor.exe --defaults-torrc "%meshr:/=\%\etc\Tor\torrc-defaults" -f "%meshr:/=\%\etc\Tor\torrc" DataDirectory "%meshr:/=\%\etc\Tor" GeoIPFile "%meshr:/=\%\etc\Tor\geoip"
 goto :CONTINUE
