@@ -10,7 +10,7 @@ if "%1"=="stop" if not "%3"=="conn" for %%E in (%bin%git %bin%sh %bin%lua %bin%l
 
 if "%3"=="conn" (
   if not exist %meshr:/=\%\var\run\wifi.txt echo DHCPEnabled=TRUE>%meshr:/=\%\var\run\wifi.txt
-  call %meshr:/=\%\lib\setip.bat "%meshr:/=\%\var\run\wifi.txt" > %meshr:/=\%\tmp\setip2.log
+  call %meshr:/=\%\lib\setip.bat "%meshr:/=\%\var\run\wifi.txt" > %TEMP%\setip2.log
   copy /y %meshr:/=\%\var\run\wifi.txt %meshr:/=\%\var\run\wifi2.txt
   chmod 777 %meshr:/=\%\var\run\wifi.txt
   del %meshr:/=\%\var\run\wifi.txt %meshr:/=\%\var\run\wifi-formed.txt
