@@ -233,7 +233,7 @@ function request_to_file(uri, target, options, cbs)
 	local stat
 
 	if not file then
-    if false then
+    if 1 then
       for k,v in pairs(resp.headers) do
         print(k .. ' : ' .. v); 
       end
@@ -249,6 +249,7 @@ function request_to_file(uri, target, options, cbs)
     
     -- Fallback to read/write
     stat, code, msg = ltn12.pump.all(src, src, http_step)
+    print('done')
     http.close()
     sock:close()
     return stat and true, code, msg
@@ -320,9 +321,8 @@ function http_step(src, snk)
     local chunk, src_err = src()
     if not chunk then
       nixio.syslog("info", ">>")
-      nixio.nanosleep(10000000)
       chunk, src_err = src()
-      nixio.syslog("info", tostring(#chunk))
+      --nixio.syslog("info", tostring(#chunk))
     end
     http.write(chunk)
     if chunk then return 1

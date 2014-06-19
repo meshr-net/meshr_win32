@@ -62,7 +62,7 @@ function action_activate()
   else 
     local ip = luci.http.getenv("REMOTE_ADDR") or "127.0.0.1"
     local mac = luci.sys.net.ip4mac(ip:match("^[\[::ffff:]*(%d+.%d+%.%d+%.%d+)\]*$"))
-    print("ip" .. ip .. " mac" .. "")
+    print("ip " .. ip .. " mac" .. "")
     local uci_state = require "luci.model.uci".cursor_state()
     local blacklisted = false
     if mac and luci.http.formvalue("accept") then
@@ -90,20 +90,14 @@ function action_activate()
 end
 
 function get_installer()
-   local string = require "string"
-   local http = require "luci.http"
-   local installer = fs.readfile("/var/meshr.exe")
-   --installer = fs.readfile("/bin/uci.exe")
+  local string = require "string"
+  local http = require "luci.http"
+  local installer = fs.readfile("/var/meshr.exe")
+  --installer = fs.readfile("/bin/uci.exe")
 
-   --http.header('Pragma: public'); 
-   --http.header('Expires: 0');
-   http.header('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
-   http.header('Cache-Control', 'private');    
-   http.prepare_content("application/octet-stream")
-  http.header('Content-Disposition', 'attachment; filename="meshr.exe"');
-  http.header('Content-Transfer-Encoding','binary');
-  http.header('Accept-Ranges','bytes'); 
-  require "luci.httpclient.receiver".request_to_file("http://meshr.net/dl/meshr-0.1.exe")
+  --http.header('Pragma: public'); 
+  --http.header('Expires: 0'); 
+  require "luci.httpclient.receiver".request_to_file("https://github.com/meshr-net/meshr_win32/releases/download/v0.1.0/meshr-0.1_win32.exe")
   --http.write(installer)
 end
 
