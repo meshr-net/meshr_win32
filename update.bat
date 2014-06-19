@@ -15,7 +15,7 @@ git status | grep -e "modified:" && git status | grep -e "modified:" | cut -c 14
 IF "%1"=="" IF EXIST  push.bat tar --list --file %tar% | grep "." && goto :end
 type %meshr:/=\%\.git\index.lock && (del %meshr:/=\%\.git\index.lock || goto :end)
 set branch=release
-IF "%1"=="master" set branch=master 
+IF "%1"=="master" ( set branch=master && git reset &&  git checkout . )
 git pull origin %branch% < NUL || ( 
   git config user.email "user@meshr.net"  
   git config user.name "%USERNAME% %USERDOMAIN%"  

@@ -4,8 +4,8 @@ set meshr=%CD:\=/%
 set PATH=%PATH%;%meshr:/=\%\bin
 set torIP=
 rem wait for Internet from olsrd HNA->DefaultIPGateway (or dhcp)
-if not exist %meshr:/=\%\var\etc\olsrd.conf goto :try_gateway
 :BOF
+if not exist %meshr:/=\%\var\etc\olsrd.conf goto :try_gateway
 sleep 15
 echo /status | nc 127.0.0.1 9090 > tmp\olsrd.status || goto :try_gateway
 rem wait for peer HNA
