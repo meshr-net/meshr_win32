@@ -154,7 +154,7 @@ Everyday use
    installation folder (default: C:\opt\meshr) to update manually. Meshr
    does automatic check and update every 24h.
 
-### Author ###
+### Author
 
 * Yury Popov (<meshr.net[at]googlemail.com>)
 
