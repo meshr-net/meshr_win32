@@ -28,9 +28,9 @@ if [ 1 ]; then
       lon=`cat $meshr/tmp/latlon.txt | grep 'lng' | sed 's/.*lng": \([^,]\+\).*/\1/g'`
     fi  
   fi
-  uci set system.system.location="$city"
-  uci set system.system.latitude="$lat"
-  uci set system.system.longitude="$lon"
+  uci set system.system.location="${city:=Earth}"
+  uci set system.system.latitude="${lat:=52}"
+  uci set system.system.longitude="${lon:=10}"
   uci set system.system.hostname="$USERNAME-$USERDOMAIN"
   uci commit system
   uci set meshwizard.community="community"

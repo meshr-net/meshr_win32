@@ -7,6 +7,7 @@ config 'public' 'contact'
 config 'public' 'community'
 	option 'homepage' 'http://meshr.net'
 	option 'name' 'meshr'
+	option 'ssid' 'meshr.net'	
 
 config 'fw_rule' 'icmp'
 	option 'src' 'freifunk'

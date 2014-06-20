@@ -79,9 +79,10 @@
 Before first use
 
    Meshr generates default config after installation to create new meshr
-   node (in "%meshr%/default.bat")
-    1. Meshr tries to determine your current geo-location to add your
-       computer to meshr community.
+   node (in %meshr%/default.bat)
+    1. Meshr tries to determine your current geo-location to fill basic
+       settings for you (it is here
+       127.0.0.1:8084/luci/admin/freifunk/basics/ ).
     2. You get IP-address in 10.177.0.0/16 range from meshr.net while
        installation. IP is generated automatically in
        10.177.128.1-10.177.253.255 range if there is no Internet access.
@@ -90,10 +91,21 @@ Before first use
        node of this network. If there is no known networks then it
        configures meshr settings to create new node of meshr.net network.
        
+   Note: Additional setup is needed for Freifunk olsr mesh networks other
+   than meshr (any help for integration with other mesh networks is
+   welcome).
+    1. Make sure correct community is selected on "Administration ->
+       Freifunk -> Basic Settings" page
+       http://127.0.0.1:8084/luci/admin/freifunk/basics/
+    2. Go to "Administration -> Freifunk -> Mesh Wizard" page. Select
+       Interface where "Mesh IP address" is enabled and input your
+       community ip address there. Press "Save & Apply" button to apply
+       new settings (i.e. network and olsrd settings).
+       
 Everyday use
 
    Meshr is monitoring status of your wireless adapter (in
-   "%meshr%/lib/watchdog.bat")
+   %meshr%/lib/watchdog.bat)
     1. If your computer has Internet access and your wireless adapter is
        unused then meshr creates ad-hoc network and waits for users to
        connect
@@ -101,17 +113,17 @@ Everyday use
             computer:
               1. TOR - it is socks proxy server for tunneling all new
                  user's connections to Internet through it (it is here
-                 127.0.0.1:9150)
+                 127.0.0.1:9150).
               2. meshr-splash - it is webserver with welcome page for new
                  users (it used tcp socket like 10.177.X.X:80). It is
                  necessary to provide meshr software download link to new
                  users to enable them access to mesh networks, including
                  TOR proxy servers for anonymous Internet access.
-              3. DualServer - it is DHCP and DNS server in one. It
-                 provides IP address, default gateway and DNS server for
-                 new users. This settings are necessary to direct new
-                 user to your welcome page with meshr software download
-                 link.
+              3. DualServer - it is DHCP and DNS server in one (web
+                 interface is http://127.0.0.1:6789 ). It provides IP
+                 address, default gateway and DNS server for new users.
+                 This settings are necessary to direct new user to your
+                 welcome page with meshr software download link.
               4. olsrd - it is routing software that provides
                  connectivity between mesh nodes even if there is no
                  direct connection between them. It also advertised TOR

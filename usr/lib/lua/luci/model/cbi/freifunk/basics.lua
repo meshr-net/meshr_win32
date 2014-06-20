@@ -43,9 +43,10 @@ end
 n = Map("system", translate("Basic system settings"))
 function n.on_after_commit(self)
 	luci.http.redirect(luci.dispatcher.build_url("admin", "freifunk", "basics"))
-	local ff = uci:get("freifunk", "community", "name") or ""
-	if ff == "meshr" then
-    local ipv4 = fs.readfile(rootfs .. "/etc/wlan/meshr.net.txt"):match("IPAddress=[^\n]-([%d%.]+)") or ''
+	local ssid = m.uci:get("freifunk", "community", "ssid") or m.uci:get("profile_" .. m.uci:get("freifunk", "community", "name"), "profile", "ssid") or ""
+	if require "luci.model.ipkg".file_exists("/etc/wlan/" .. ssid .. ".txt") then
+    local ipv4 = fs.readfile(rootfs .. "/etc/wlan/" .. ssid .. ".txt"):match("IPAddress=[^\n]-([%d%.]+)") or ''
+    print(ipv4)
     --os.execute(rootfs .. "/lib/upload.bat >> " .. rootfs .. "/messages.log 2>&1")
     if ipv4 then
       os.execute(rootfs .. "/bin/sed -i \"s/\\(.*_ip4addr'\\).*/\\1 '" .. ipv4 .. "'/g\" " .. rootfs .. "/etc/config/meshwizard")
