@@ -36,9 +36,11 @@ git pull origin %branch% < NUL || (
       git reset --hard origin/%branch% < NUL || ( 
         call bin\services.bat stop
         git reset  --hard  origin/%branch% < NUL
-        sleep 9 )
+        sleep 9 && tar xf %backup%  -C . --overwrite --ignore-failed-read  --ignore-command-error
+        call bin\services.bat start
+        goto :ipkg
+      )
       tar xf %backup%  -C . --overwrite --ignore-failed-read  --ignore-command-error
-      call bin\services.bat start
     )
 )
 :ipkg
