@@ -70,7 +70,7 @@ var edgediv;
 /******* CALL TO SERVER ********/
 function callToServer(URL) {
 	var IFrameDoc;
-//alert('123');
+//IFrameObj.location = '/cgi-bin/vizdata.lua'; return false; //IE11?
 
 	if (IFrameObj.document) {
 		// For IE5 + opera

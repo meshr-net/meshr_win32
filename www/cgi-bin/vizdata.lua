@@ -15,7 +15,7 @@ local io = require "io"
 local hc = require "luci.httpclient"
 local rootfs = rootfs or ''
 local source, code, msg  = hc.request_to_buffer("http://127.0.0.1:2006/all")
-if not msg then
+if not msg and source then
   local f = nixio.open(rootfs .. "/tmp/olsr.tmp", "w", 600)
   f:writeall(source)
   f:close()

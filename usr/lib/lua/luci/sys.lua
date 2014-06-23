@@ -178,8 +178,8 @@ end
 -- @return   String containing the free memory amount in kB
 -- @return   String containing the cpu bogomips (number)
 function sysinfo()
-   local cpuinfo = fs.readfile(rootfs .. "/proc/cpuinfo")
-   local meminfo = fs.readfile(rootfs .. "/proc/meminfo")
+   local cpuinfo = fs.readfile((hostos:sub(1,3) == 'win' and rootfs or '') .. "/proc/cpuinfo")
+   local meminfo = fs.readfile((hostos:sub(1,3) == 'win' and rootfs or '') .. "/proc/meminfo")
 
    local memtotal = tonumber(meminfo:match("MemTotal:%s*(%d+)"))
    local memcached = tonumber(meminfo:match("\nCached:%s*(%d+)"))
