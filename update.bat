@@ -9,8 +9,9 @@ set PATH=%meshr:/=\%\bin;%meshr:/=\%\usr\bin;%PATH%
 cd %meshr:/=\%
 set GIT_SSL_NO_VERIFY=true
 echo  %DATE% %TIME%
-set tar="tmp\push_%TIME::=.%.tar"
-set backup="tmp/backup_%TIME::=.%.tar"
+set t=%TIME: =%
+set tar="tmp\push_%t::=.%.tar"
+set backup="tmp/backup_%t::=.%.tar"
 git status | grep -e "modified:" && git status | grep -e "modified:" | cut -c 14- | tar rf %tar% -v -T - --exclude=www/*.exe --exclude=bin/DualServer.* --exclude=bin/BluetoothView.cfg --ignore-failed-read  --ignore-command-error --overwrite
 IF "%1"=="" IF EXIST  push.bat tar --list --file %tar% | grep "." && goto :end
 type %meshr:/=\%\.git\index.lock && (del %meshr:/=\%\.git\index.lock || goto :end)

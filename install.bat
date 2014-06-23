@@ -15,7 +15,7 @@ if "%1"=="Uninstall" (
     cd %~dp0
     bin\chmod.exe 777 .\etc\wlan\meshr.net.txt
     del .\var\etc\olsrd.conf .\bin\DualServer.ini .\etc\wlan\meshr.net.txt
-    move /Y .\etc\wlan\meshr.net.txt %TEMP%\wmic.%TIME::=.%.tmp
+    move /Y .\etc\wlan\meshr.net.txt "%TEMP%\wmic.%TIME::=.%.tmp"
     rm -rf %~dp0
     netsh advfirewall firewall delete rule name="olsrd" || netsh firewall delete rule name="olsrd"
     netsh advfirewall firewall delete rule name="meshr tor" || netsh firewall delete rule name="meshr tor"
@@ -38,17 +38,17 @@ bin\git clone -b %branch% meshr.bundle %1 || ( echo "can't clone"
   bin\git clone -b %branch% meshr.bundle
   call bin\services.bat stop
   copy /Y "%mpath:/=\%\etc\config\*" meshr\etc\config
-  xcopy /Y /C /E /H meshr %mpath:/=\%\ )
+  xcopy /C /E /H /Y meshr %mpath:/=\%\ )
 
 del meshr.bundle
 if not "%1"==""  copy /Y * %mpath:/=\%
 cd %mpath:/=\%
 set PATH=%meshr:/=\%\bin;%meshr:/=\%\usr\bin;%PATH%
 
-git config user.email "user@meshr.net"
+git config user.email "user_win32@meshr.net"
 git config user.name "%USERNAME: =_% %USERDOMAIN%"
 git remote set-url origin https://github.com/meshr-net/meshr_win32.git
-git rm . -r --cached && bin\git add . 
+git rm . -r --cached && git add . 
 cd %meshr:/=\%\etc\config
 git ls-files | tr '\n' ' ' | xargs git update-index --assume-unchanged 
 cd %meshr:/=\%
