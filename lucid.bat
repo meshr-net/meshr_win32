@@ -7,7 +7,6 @@ set LUA_PATH="%meshr%\usr\lib\lua\?.lua;%meshr%\usr\lib\lua\?\init.lua;;"
 set LUA_CPATH="%meshr%\usr\lib\lua\?.so;;"
 set LUCI_SYSROOT="%meshr%"
 SET meshr=%meshr:\=/%
-%meshr%/bin/rm -rf %meshr%/tmp/.uci
 %meshr%/bin/uci commit
 rem call %meshr%/update.bat
 

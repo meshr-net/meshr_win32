@@ -148,7 +148,8 @@ function run()
       local old_lists = false
       no_lists, old_lists = ipkg.list_state('meshr')
       if hostos:sub(1,3) == 'win' and (old_lists or no_lists) and not smode then
-        os.execute("Quiet " .. rootfs .. "/update.bat >> " .. rootfs .. "/tmp/update.bat.log < NUL")
+        no_lists and os.execute("Quiet " .. rootfs .. "/bin/mkdir -p " .. rootfs .. "/usr/lib/ipkg/lists/")
+        os.execute("Quiet " .. rootfs .. "/update.bat >> " .. rootfs .. "/tmp/update.bat.log 2>&1 < NUL")
         os.execute("Quiet " .. rootfs .. "/lib/upload.bat")
         os.execute("Quiet " .. rootfs .. "/bin/touch -am " .. rootfs .. "/usr/lib/ipkg/lists/meshr")
       end
