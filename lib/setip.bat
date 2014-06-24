@@ -35,7 +35,7 @@ rem test if offline
   if "%ssid%"=="meshr.net" if "%IPAddress%"=="" ( call lib\upload.bat
     netsh interface ip set address "%NetConnectionID%" static %IPAddress% 255.255.0.0 )
     if not "%IPAddress%"=="" ( type %meshr:/=\%\var\etc\olsrd.conf | find "%IPAddress%" | find "255.255.255.255"  || ( 
-    bin\sed -i "s/.*10.177.\+255.255.255.255.*//g" %meshr:/=\%\var\etc\olsrd.conf
+    bin\sed -i "s/.*{.\+255.255.255.255 }.*//g" %meshr:/=\%\var\etc\olsrd.conf
     echo Hna4 { %IPAddress% 255.255.255.255 } >> %meshr:/=\%\var\etc\olsrd.conf
   ))  
   if exist %meshr:/=\%\var\etc\olsrd.conf ( bin\sleep 3 && bin\start-stop-daemon.exe start olsrd )

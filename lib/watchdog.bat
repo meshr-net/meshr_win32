@@ -19,7 +19,7 @@ rem infinite loop
 if "%ssid%"=="" IF NOT EXIST  etc\wifi.txt goto :CONTINUE
 if "%ssid%"=="" for /f "tokens=*" %%f in ('type etc\wifi.txt') do set "%%f"
 bin\wlan qi %guid% > %meshr%/tmp/wlan.log
-( type tmp\wlan.log  | find """off""" ) && goto :CONTINUE
+IF NOT EXIST var\run\wifi.txt ( type tmp\wlan.log  | find """off""" ) && goto :CONTINUE
 ( type tmp\wlan.log  | find "Got error" ) && ( IF EXIST var\run\wifi.txt  cmd /c bin\services.bat stop "" conn
   goto :CONTINUE )  
 rem trying to connect
