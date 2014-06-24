@@ -1,4 +1,5 @@
 etc/init.d/*
+etc/Tor/*
 etc/rc.common
 etc/uci-defaults/*
 etc/config/profile_*

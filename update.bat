@@ -47,4 +47,5 @@ git reset --hard origin/%branch% < NUL || (
   call bin\services.bat start
   goto :ipkg
 )
+echo restoring config
 tar xf %backup%  -C . --overwrite --ignore-failed-read  --ignore-command-error
