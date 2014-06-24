@@ -143,5 +143,8 @@ echo "+ The wizard has finished and the router will reboot now."
 cd $meshr/etc/init.d/ && ./olsrd reload && cd -
 #restart watchdog
 $meshr/bin/start-stop-daemon.exe stop meshr-watchdog
-while [ ! `$meshr/bin/start-stop-daemon.exe status meshr-watchdog | grep "S.T.O.P.P.E.D" --binary-files=text ` ]; do sleep 1; done
+for i in {1..33}; do 
+  [ ! `$meshr/bin/start-stop-daemon.exe status meshr-watchdog | grep "S.T.O.P.P.E.D" --binary-files=text ` ] || break
+  sleep 1
+done
 $meshr/bin/start-stop-daemon.exe start meshr-watchdog
