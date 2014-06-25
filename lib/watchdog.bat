@@ -6,6 +6,7 @@ net session >nul 2>&1 || (
   bin\sudo /b /c %0 %*
   goto :EOF
 )
+del tmp\wd-*.log
 for /f "tokens=*" %%f in ('type etc\wifi.txt') do set "%%f"
 bin\wlan dc %guid%
 if exist var\run\wifi.txt cmd /c bin\services.bat stop "" conn
@@ -49,9 +50,9 @@ rem >bin\..\tmp\wd1.%TIME::=.%.log 2>&1
 
 :connected
   wmic nicconfig where SettingID="{%guid%}" get DHCPEnabled,DNSServerSearchOrder,DefaultIPGateway,IPAddress,IPSubnet,Caption,DHCPServer /value | more | bin\sed "s/[""{}]//g" | bin\sed "s/^\(IP.*=\)[0-9\.]\+,\([0-9\.]\+\)/\1\2/g" > var\run\wifi.txt
-  call lib\setip.bat "%meshr:/=\%\etc\wlan\%ssid%.txt" > tmp\setip.log
+  call lib\setip.bat "%meshr:/=\%\etc\wlan\%ssid%.txt" > tmp\wd-setip-%random%.log
   if "%ONLINE%"=="false" (
-    if "%ssid%"=="meshr.net" ( del tmp\tt.log && start %meshr%/lib/tor-tun.bat ^> tmp\tt.log || %meshr%/lib/tor-tun.bat )
+    if "%ssid%"=="meshr.net" start %meshr%/lib/tor-tun.bat ^> tmp\wd-tt-%random%.log
     bin\start-stop-daemon.exe start meshr-splash
     goto :CONTINUE
   ) 
