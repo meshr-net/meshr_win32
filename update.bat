@@ -41,10 +41,10 @@ git fetch origin %branch% | find "fatal: unable to access" && goto :ipkg
 git reset --merge  < NUL
 tar cf %backup% --exclude-vcs --ignore-failed-read  --ignore-command-error -X etc/tarignore etc/* bin/DualServer.ini bin/BluetoothView.cfg 
 git reset --hard origin/%branch% < NUL || ( 
-  call bin\services.bat stop
+  call bin\services.bat stop "" update
   git reset  --hard  origin/%branch% < NUL
   sleep 9 && tar xf %backup%  -C . --overwrite --ignore-failed-read  --ignore-command-error
-  call bin\services.bat start
+  call bin\services.bat start "" update
   goto :ipkg
 )
 echo restoring config

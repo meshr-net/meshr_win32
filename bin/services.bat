@@ -1,6 +1,6 @@
 rem Save old serivces for Uninstall compatibility !
 if not "%3"=="conn" %~dp0\start-stop-daemon.exe %1 meshr %2 
-if not "%3"=="conn" %~dp0\start-stop-daemon.exe %1 meshr-watchdog %2 
+if not "%3"=="update" if not "%3"=="conn" %~dp0\start-stop-daemon.exe %1 meshr-watchdog %2 
 %~dp0\start-stop-daemon.exe %1 olsrd %2
 %~dp0\start-stop-daemon.exe %1 meshr-splash %2
 set bin=%~dp0
