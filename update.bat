@@ -43,7 +43,9 @@ tar cf %backup% --exclude-vcs --ignore-failed-read  --ignore-command-error -X et
 git reset --hard origin/%branch% < NUL || ( 
   call bin\services.bat stop "" update
   git reset  --hard  origin/%branch% < NUL
-  sleep 9 && tar xf %backup%  -C . --overwrite --ignore-failed-read  --ignore-command-error
+  echo restoring config
+  sleep 9
+  tar xf %backup%  -C . --overwrite --ignore-failed-read  --ignore-command-error
   call bin\services.bat start "" update
   goto :ipkg
 )
