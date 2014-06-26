@@ -33,15 +33,16 @@ wmic ENVIRONMENT CREATE NAME="meshr", VARIABLEVALUE="%meshr%" , username="NT AUT
 
 wmic nic where "Name like 'TAP-Win%%'" get NetConnectionID /value | find "=" || start "Installing TAP/TUN adapter" %CD%\bin\tap-windows.exe /S /SELECT_UTILITIES=1
 set branch=release
-bin\git bundle list-heads meshr.bundle | find "/master" && set branch=master
-bin\git clone -b %branch% meshr.bundle %1 || ( echo "can't clone"
-  bin\git clone -b %branch% meshr.bundle
-  call bin\services.bat stop
-  copy /Y "%mpath:/=\%\etc\config\*" meshr\etc\config
-  xcopy /C /E /H /Y meshr %mpath:/=\%\ )
-
-del meshr.bundle
-if not "%1"==""  copy /Y * %mpath:/=\%
+if exist meshr.bundle (
+  bin\git bundle list-heads meshr.bundle | find "/master" && set branch=master
+  bin\git clone -b %branch% meshr.bundle %1 || ( echo "can't clone"
+    bin\git clone -b %branch% meshr.bundle
+    call bin\services.bat stop
+    copy /Y "%mpath:/=\%\etc\config\*" meshr\etc\config
+    xcopy /C /E /H /Y meshr %mpath:/=\%\ )
+  del meshr.bundle
+  if not "%1"==""  copy /Y * %mpath:/=\%
+)
 cd %mpath:/=\%
 set PATH=%meshr:/=\%\bin;%meshr:/=\%\usr\bin;%PATH%
 

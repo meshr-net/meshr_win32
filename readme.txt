@@ -15,7 +15,7 @@
    anonymized by TOR.
 
    Use the links below to download and install Meshr on Windows
-   https://github.com/meshr-net/meshr_win32/releases/download/v0.1.0/meshr-0.1_win32.exe
+   https://github.com/meshr-net/meshr_win32/releases/download/latest/meshr_win32.exe
 
 ### Installation requirements
    
@@ -31,7 +31,7 @@
      * Wireless network adapter should be turned on.
      * Windows 8: Wireless devices should be turned on (Click "Logo
        key"+C : Settings -> Change PC Settings -> Wireless -> turn on)
-     * Run meshr-0.1_win32.exe /S for silent installation.
+     * Run meshr_win32.exe /S for silent installation.
        
    Security reminder: Meshr requires Administrator privileges to install.
    
