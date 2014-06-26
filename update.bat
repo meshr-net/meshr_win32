@@ -33,7 +33,7 @@ git pull origin %branch% < NUL || (
     )
 )
 :ipkg
-start start-stop-daemon.exe start meshr-watchdog
+Quiet start-stop-daemon.exe start meshr-watchdog
 call ipkg.bat -force-defaults  update  'meshr' && call ipkg.bat -force-defaults  upgrade  'meshr-update'
 goto :EOF
 
