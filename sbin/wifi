@@ -124,7 +124,7 @@ COMMENT1
     guid=`cat $meshr/tmp/olsrd2.int | grep $device | sed "s/.*{\(.*\)}.*/\1/g"`
     
     wlan dc $guid
-    for i in {1..33}; do 
+    for i in `seq 1 33`; do 
       [ -f $meshr/var/run/wifi.txt ] || break
       sleep 1
     done
