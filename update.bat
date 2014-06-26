@@ -29,7 +29,7 @@ git pull origin %branch% < NUL || (
   git pull origin %branch% < NUL > tmp\git.log 2>&1 || (
       grep "fatal: unable to access" tmp\git.log  && goto :ipkg
       grep "." tmp\git.log || goto :ipkg
-      call :reset
+      call :reset > tmp\update.log
     )
 )
 :ipkg
@@ -43,9 +43,7 @@ tar cf %backup% --exclude-vcs --ignore-failed-read  --ignore-command-error -X et
 git reset --hard origin/%branch% < NUL || ( 
   call bin\services.bat stop "" update
   git reset  --hard  origin/%branch% < NUL
-  echo restoring config
-  sleep 9
-  tar xf %backup%  -C . --overwrite --ignore-failed-read  --ignore-command-error
+  sleep 9 && tar xf %backup%  -C . --overwrite --ignore-failed-read  --ignore-command-error
   call bin\services.bat start "" update
   goto :ipkg
 )
