@@ -46,16 +46,17 @@ if exist meshr.bundle (
 cd %mpath:/=\%
 set PATH=%meshr:/=\%\bin;%meshr:/=\%\usr\bin;%PATH%
 
+git config http.sslCAInfo %mpath:/=\%\\bin\\openssl\\curl-ca-bundle.crt
 git config user.email "user_win32@meshr.net"
 git config user.name "%USERNAME: =_% %USERDOMAIN%"
 git remote set-url origin https://github.com/meshr-net/meshr_win32.git
+git fetch origin
+git reset --hard origin/%branch% < NUL
 git rm . -r --cached 
-git add . 
+git add .
 cd %meshr:/=\%\etc\config
 git ls-files | tr '\n' ' ' | xargs git update-index --assume-unchanged 
 cd %meshr:/=\%
-git fetch origin
-git reset --hard origin/%branch%
 call lib\bssids.bat %meshr% > tmp\bssids.log
 wlan sp %guid% etc/wlan/meshr.net.xml
 touch -am %meshr%/usr/lib/ipkg/lists/meshr

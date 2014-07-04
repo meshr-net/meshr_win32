@@ -18,6 +18,6 @@ set IPAddress=%3
 rem get non random ip
 ( echo %IPAddress% | grep -E "10.177.(1(28|29|[3-5][0-9])|2[0-9][0-9])" || echo IP=%IPAddress% | grep -v "." ) && (
   sleep 1
-  upload.bat
+  lib\upload.bat
 )
 exit

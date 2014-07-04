@@ -21,9 +21,8 @@ pause
 GOTO :EOF
 
 :isonline
-%meshr:/=\%\bin\grep "connected to \|Currently formed \|""disconnected""" %meshr:/=\%\tmp\wlan.log || %meshr:/=\%\bin\sleep 11
-type %meshr:/=\%\tmp\wlan.log | find "Currently formed " && goto :ok
-type %meshr:/=\%\tmp\wlan.log | find """disconnected""" && goto :ok
+%meshr:/=\%\bin\grep "Currently formed \|""disconnected""\|Got error" %meshr:/=\%\tmp\wlan.log && goto :ok
+type %meshr:/=\%\tmp\wlan.log | find "connected to " || %meshr:/=\%\bin\sleep 5
 type %meshr:/=\%\tmp\wlan.log | find "connected to " || %meshr:/=\%\bin\sleep 11
 type %meshr:/=\%\tmp\wlan.log | find "connected to " || %meshr:/=\%\bin\sleep 22
 %meshr:/=\%\bin\grep "connected to meshr.net \|Currently formed " %meshr:/=\%\tmp\wlan.log || ( type %meshr:/=\%\tmp\wlan.log && goto :ok )
