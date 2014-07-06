@@ -177,21 +177,21 @@ function action_neigh(json)
       local lmac = ""
       local ip
       local neihgt = {}
-      
+                              
       if resolve == "1" then
-         hostname = nixio.getnameinfo(v.remoteIP, nil, 100)
+         hostname = nixio.getnameinfo(v.remoteIP, nil, 100) 
          if hostname then
             v.hostname = hostname
          end
-      end
+      end            
       if v.proto == '4' then
          uci:foreach("network", "interface",function(vif)
-            if vif.ipaddr and vif.ipaddr == v.localIP then
+            if vif.ipaddr and vif.ipaddr == v.localIP then  
                interface = vif['.name'] or vif.interface
                lmac = string.lower(vif.macaddr or "") 
                return
             end
-         end)
+         end)           
     if arptable then -- TODO
          for _, arpt in ipairs(arptable) do
             ip = arpt['IP address']
@@ -444,7 +444,6 @@ function fetch_jsoninfo(otable)
    for k, v in ipairs(data6) do
       table.insert(data4, v)
    end
-
    return data4, has_v4, has_v6, false
 end
 
