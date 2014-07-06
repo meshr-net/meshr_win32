@@ -1,6 +1,6 @@
 rem <<BATFILE
 rem update linux from win32
-if not exist %~dp0\bin\git.exe if exist c:\MinGW\msys\1.0\bin\sh.exe (
+if not exist %~dp0\bin\git.exe if not exist %~dp0\..\bin\git.exe if exist c:\MinGW\msys\1.0\bin\sh.exe (
   set PATH=%PATH%;c:\MinGW\bin\;c:\MinGW\msys\1.0\bin\
   copy "%0" %~dp0\tmp\update-tmp.bat 
   c:\MinGW\msys\1.0\bin\sh.exe %cd:\=/%/tmp/update-tmp.bat %*
