@@ -10,7 +10,7 @@ fi
 
 #Location auto-config
 if [ 1 ]; then
-  curl -o - -A Mozilla -m 12 http://www.ip-adress.com/ip_tracer/ > $meshr/tmp/myip
+  wget -O $meshr/tmp/myip -U Mozilla -T 12 http://www.ip-adress.com/ip_tracer/ #curl -o $meshr/tmp/myip -A Mozilla -m 12 http://www.ip-adress.com/ip_tracer/
   if [  -f $meshr/tmp/myip ] ; then
     lat=`cat $meshr/tmp/myip | grep 'latLng' | sed 's/.\+ lat: \([^,]\+\).\+/\1/g'`
     lon=`cat $meshr/tmp/myip | grep 'latLng' | sed 's/.\+ lng: \([^ ]\+\).\+/\1/g'`
@@ -23,11 +23,11 @@ if [ 1 ]; then
     grep "MAC Address.*:.*-\|^BSSID:" $meshr/tmp/bssids.txt | sed 's/.*:.*\(..[-:]..[-:]..[-:]..[-:]..[-:]..\).*/{"macAddress": "\1"},/g' >>$meshr/tmp/json.txt
     echo {\"macAddress\": \"00-00-00-00-00-00\"}]}>>$meshr/tmp/json.txt
     [ -f $meshr/tmp/latlon.txt ]  && rm $meshr/tmp/latlon.txt
-    sudo -geoloc
-    grep 'lat' $meshr/tmp/latlon.txt  || sudo -geoloc
+    uci -geoloc
+    grep 'lat' $meshr/tmp/latlon.txt  || uci -geoloc
     if cat $meshr/tmp/latlon.txt | grep 'lat' ; then
-      lat=`cat $meshr/tmp/latlon.txt | grep 'lat' | sed 's/.*lat": \([^,]\+\).\+/\1/g' | sed "s/\(\....\).*/\1$RANDOM/g"`
-      lon=`cat $meshr/tmp/latlon.txt | grep 'lng' | sed 's/.*lng": \([^,]\+\).*/\1/g' | sed "s/\(\....\).*/\1$RANDOM/g"`
+      lat=`cat $meshr/tmp/latlon.txt | grep 'lat' | sed 's/.*lat": \([^,]\+\).\+/\1/g' | sed "s/\(\....\).*/\1$(date +%S%M%H)/g"`
+      lon=`cat $meshr/tmp/latlon.txt | grep 'lng' | sed 's/.*lng": \([^,]\+\).*/\1/g' | sed "s/\(\....\).*/\1$(date +%S%M%H)/g"`
     fi
   fi
   uci set system.system.location="${city:=Earth}"

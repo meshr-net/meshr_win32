@@ -44,7 +44,7 @@ Meshr 0.1
             wireless connections (it is %meshr%\lib\watchdog.bat, started
             automatically)
           + meshr-splash - web server for splash screen (it is
-            %meshr%\lucid-splash.bat, started if connected to mesh
+            %meshr%\meshr-splash.bat, started if connected to mesh
             network)
           + olsrd - olsr routing daemon (it is
             %meshr%\usr\sbin\olsrd.exe, started if connected to mesh

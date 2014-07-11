@@ -53,9 +53,9 @@ git remote set-url origin https://github.com/meshr-net/meshr_win32.git
 git fetch origin
 git reset --hard origin/%branch% < NUL
 git rm . -r --cached 
-git add .
-cd %meshr:/=\%\etc\config
-git ls-files | tr '\n' ' ' | xargs git update-index --assume-unchanged 
+git add . --ignore-errors 
+cd %meshr:/=\%\etc\config && git ls-files | tr '\n' ' ' | xargs git update-index --assume-unchanged
+cd %meshr:/=\%\etc\ && git ls-files | tr '\n' ' ' | xargs git update-index --assume-unchanged 
 cd %meshr:/=\%
 call lib\bssids.bat %meshr% > tmp\bssids.log
 wlan sp %guid% etc/wlan/meshr.net.xml
@@ -67,7 +67,7 @@ call %mpath:/=\%\bin\services.bat remove confirm
 
 start-stop-daemon.exe install olsrd "%meshr%/usr/sbin/olsrd.exe" -f "%meshr%/var/etc/olsrd.conf"
 start-stop-daemon.exe install meshr "%meshr%/lucid.bat"
-start-stop-daemon.exe install meshr-splash "%meshr%/lucid-splash.bat"
+start-stop-daemon.exe install meshr-splash "%meshr%/meshr-splash.bat"
 start-stop-daemon.exe install meshr-watchdog "%meshr%/lib/watchdog.bat"
 start-stop-daemon.exe set olsrd start SERVICE_DEMAND_START
 start-stop-daemon.exe set meshr-splash start SERVICE_DEMAND_START
