@@ -1,5 +1,5 @@
 rem <<BATFILE
-:: rinstall.bat [verify] 'Asus rt66u' 'Tomato by Shibby MIPSR2 K26' '192.168.1.6' 'root' 'admin' '/opt'
+:: rinstall.bat [verify] 'Asus rt66u' 'Tomato by Shibby MIPSR2 K26' '192.168.1.1' 'root' 'admin' '/opt'
 cd %~dp0..  
 set a0=%0
 bin\sh.bat %a0:\=/% %*
