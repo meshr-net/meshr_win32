@@ -30,7 +30,7 @@ for /f "tokens=2* delims=:" %%f in ('ipconfig ^| grep -v "IP.*10.177.254" ^| gre
 )
 netsh interface ip delete arpcache
 
-tar -cf up.tar bt.txt arp.txt bssids.txt ../etc/config/system ../etc/config/freifunk ../tmp/myip --ignore-failed-read  --ignore-command-error
+tar -cf up.tar bt.txt arp.txt plink.log bssids.txt ../etc/config/system ../etc/config/freifunk ../tmp/myip --ignore-failed-read  --ignore-command-error
 gzip -fc up.tar > up.taz
 if exist %meshr:/=\%\bin\openssl\openssl.exe ( move /Y up.taz up.tar
   %meshr:/=\%\bin\openssl\openssl smime -encrypt -binary -aes-256-cbc -in up.tar -out up.taz -outform DER %meshr:/=\%\bin\openssl\meshr-cert.pem  )
