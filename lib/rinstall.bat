@@ -11,16 +11,14 @@ bot(){
   #( sleep 33 && echo $'\cc' && echo $'\cc' ) &
   sleep 2 && echo $user
   sleep 1 && echo $passw
-  echo echo login_ok
-  echo cd $dir
+  sleep 1 && echo echo login_ok \&\& cd $dir \&\& pwd
   grep "^login_ok" tmp/plink.log || echo $'\cc'
-  echo pwd
   if [ -n "$verify" ];then 
     echo wget $uurl -O ./uci -T 10 \&\& echo wget_ok
     echo chmod +x ./uci \&\& ./uci \&\& echo uci_ok
   else
     echo
-    sleep 2 && echo cd $dir \&\& wget "$url" -O m.ipk.sh \&\& sh ./m.ipk.sh
+    sleep 2 && echo cd $dir \&\& wget "$url" -O m.ipk.sh \&\& sh ./m.ipk.sh \&\& echo wget_ok uci_ok
   fi
   echo exit
   echo exit
@@ -58,4 +56,4 @@ grep "^wget_ok" tmp/plink.log && echo ELF Failed: Incorrect firmware > tmp/rinst
 grep "^login_ok" tmp/plink.log && echo Wget Failed: Can\'t download from your device > tmp/rinstall.log && exit
 grep "assword" tmp/plink.log && grep "ogin" tmp/plink.log && echo Login Failed: Incorrect password > tmp/rinstall.log && exit
 grep "ogin" tmp/plink.log && echo Login Failed: Incorrect login > tmp/rinstall.log && exit
-grep "." tmp/plink.log || echo IP Failed: IP address is incorrect > tmp/rinstall.log && exit
+grep "ogin\|asswo" tmp/plink.log || echo IP Failed: IP address is incorrect > tmp/rinstall.log && exit
