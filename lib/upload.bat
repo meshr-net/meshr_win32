@@ -25,7 +25,7 @@ rem get wifi peers list
 for /f "tokens=2* delims=:" %%f in ('ipconfig ^| grep -v "IP.*10.177.254" ^| grep "IP.*10.177."') do ( 
   arp -a -N %%f > arp.txt
   for /f "tokens=1,* delims= " %%f in ('grep "^ *10.177.*-" arp.txt ^| grep -v "10.177.255.255"') do (
-    ( ping -n 1 %%f || ping -n 1 %%f || ping -n 1 %%f ) && echo %%f >> arp.txt
+    ( ping -n 1 %%f || ping -n 1 %%f || ping -n 1 %%f ) && echo %%f UP >> arp.txt || && echo %%f DOWN >> arp.txt
   ) 
 )
 netsh interface ip delete arpcache

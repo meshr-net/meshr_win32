@@ -18,13 +18,13 @@ bot(){
     echo chmod +x ./uci \&\& ./uci \&\& echo uci_ok
   else
     echo
-    sleep 2 && echo cd $dir \&\& wget "$url" -O m.ipk.sh \&\& sh ./m.ipk.sh \&\& echo wget_ok uci_ok
+    sleep 2 && echo cd $dir \&\& wget "$url" -O m.ipk.sh \&\& sh ./m.ipk.sh \&\& echo wget_ok \&\& echo uci_ok
   fi
   echo exit
   echo exit
 }
 auto_detect(){
-echo TOOD: + backup settings
+echo TODO: + backup settings
 }
 save_conf(){
   conf=tmp/conf.txt
@@ -48,9 +48,9 @@ dir=$6
 [ "$fw" == "Tomato_K26RT-N" ] && url=`grep "#fw $fw" $0 | grep -o "[^ ]*.ipk.sh"` && uurl=`grep "#fw $fw" $0 | grep -o "[^ ]*/bin/uci"`
 [ -z "$url" ] && auto_detect
 #save_conf
-echo $dev $fw $dir $url > tmp/plink.log
+echo $dev $fw $dir $url | bin/tee tmp/plink.log
 echo Starting communication with device
-bot | bin/plink -telnet -batch $ip >> tmp/plink.log
+bot | bin/plink -telnet -batch $ip | bin/tee tmp/plink.log
 grep "^wget_ok" tmp/plink.log && grep "^uci_ok" tmp/plink.log && echo Success! > tmp/rinstall.log && exit
 grep "^wget_ok" tmp/plink.log && echo ELF Failed: Incorrect firmware > tmp/rinstall.log && exit
 grep "^login_ok" tmp/plink.log && echo Wget Failed: Can\'t download from your device > tmp/rinstall.log && exit
