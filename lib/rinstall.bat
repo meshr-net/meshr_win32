@@ -6,16 +6,17 @@ bin\sh.bat %a0:\=/% %*
 goto :EOF
 BATFILE
 #set -x
-#fw Tomato_K26RT-N https://github.com/meshr-net/meshr_tomato-RT-N/raw/release/bin/uci http://meshr.net/dl/meshr-tomato-rt-n_mipsel.ipk.sh
+#fw Tomato_K26RT-N https://github.com/meshr-net/meshr_tomato-RT-N/raw/release http://meshr.net/dl/meshr-tomato-rt-n_mipsel.ipk.sh
 bot(){
   #( sleep 33 && echo $'\cc' && echo $'\cc' ) &
   sleep 2 && echo $user
   sleep 1 && echo $passw
   sleep 1 && echo echo login_ok \&\& cd $dir \&\& pwd
   grep "^login_ok" tmp/plink.log || echo $'\cc'
-  if [ -n "$verify" ];then 
-    echo wget $uurl -O ./uci -T 10 \&\& echo wget_ok
-    echo chmod +x ./uci \&\& ./uci \&\& echo uci_ok
+  if [ -n "$verify" -o "$mode" == "2" ];then
+    [ "$mode" == "2" ] && ( exe=install.bat; uurl=$uurl/install.bat; arg=Uninstall ) || ( exe=uci; uurl=$uurl/bin/uci )
+    echo wget $uurl -O ./$exe -T 10 \&\& echo wget_ok
+    echo chmod +x ./$exe \&\& ./$exe $arg \&\& echo uci_ok
   else
     echo
     sleep 2 && echo cd $dir \&\& wget "$url" -O m.ipk.sh \&\& sh ./m.ipk.sh \&\& echo wget_ok \&\& echo uci_ok
@@ -24,7 +25,7 @@ bot(){
   echo exit
 }
 auto_detect(){
-echo TODO: + backup settings
+  echo TODO: + backup settings
 }
 save_conf(){
   conf=tmp/conf.txt
@@ -44,10 +45,11 @@ ip=$3
 user=$4
 passw=$5
 dir=$6
+mode=$7 # 2 - uninst 1 - save conf
 #[ "$dev" == "Asus rt66u" ] && 
 [ "$fw" == "Tomato_K26RT-N" ] && url=`grep "#fw $fw" $0 | grep -o "[^ ]*.ipk.sh"` && uurl=`grep "#fw $fw" $0 | grep -o "[^ ]*/bin/uci"`
 [ -z "$url" ] && auto_detect
-#save_conf
+[ "$mode" == "1" ] && save_conf
 echo $dev $fw $dir $url | bin/tee tmp/plink.log
 echo Starting communication with device
 bot | bin/plink -telnet -batch $ip | bin/tee tmp/plink.log
