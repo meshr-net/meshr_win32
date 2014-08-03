@@ -14,7 +14,11 @@ bot(){
   sleep 1 && echo echo login_ok \&\& cd $dir \&\& pwd
   grep "^login_ok" tmp/plink.log || echo $'\cc'
   if [ -n "$verify" -o "$mode" == "2" ];then
-    [ "$mode" == "2" ] && ( exe=install.bat; uurl=$uurl/install.bat; arg=Uninstall ) || ( exe=uci; uurl=$uurl/bin/uci )
+    if [ "$mode" == "2" ];then
+      exe=install.bat; uurl=$uurl/install.bat; arg=Uninstall
+    else  
+      exe=uci; uurl=$uurl/bin/uci
+    fi  
     echo wget $uurl -O ./$exe -T 10 \&\& echo wget_ok
     echo chmod +x ./$exe \&\& ./$exe $arg \&\& echo uci_ok
   else
