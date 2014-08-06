@@ -2,6 +2,7 @@ rem <<BATFILE
 :: rinstall.bat [verify] 'Asus rt66u' 'Tomato by Shibby MIPSR2 K26' '192.168.1.1' 'root' 'admin' '/opt'
 cd %~dp0..  
 set a0=%0
+SET meshr=%CD:\=/%
 bin\sh.bat %a0:\=/% %*
 goto :EOF
 BATFILE
@@ -9,9 +10,9 @@ BATFILE
 #fw Tomato_K26RT-N https://github.com/meshr-net/meshr_tomato-RT-N/raw/release http://meshr.net/dl/meshr-tomato-rt-n_mipsel.ipk.sh
 bot(){
   #( sleep 33 && echo $'\cc' && echo $'\cc' ) &
-  sleep 2 && echo $user
+  sleep 1 && echo $user
   sleep 1 && echo $passw
-  sleep 1 && echo echo login_ok \&\& cd $dir \&\& pwd
+  sleep 2 && echo echo login_ok\; cd $dir\; pwd
   grep "^login_ok" tmp/plink.log || echo $'\cc'
   if [ -n "$verify" -o "$mode" == "2" ];then
     if [ "$mode" == "2" ];then
@@ -51,7 +52,7 @@ passw=$5
 dir=$6
 mode=$7 # 2 - uninst 1 - save conf
 #[ "$dev" == "Asus rt66u" ] && 
-[ "$fw" == "Tomato_K26RT-N" ] && url=`grep "#fw $fw" $0 | grep -o "[^ ]*.ipk.sh"` && uurl=`grep "#fw $fw" $0 | grep -o "[^ ]*/bin/uci"`
+[ "$fw" == "Tomato_K26RT-N" ] && url=`grep "#fw $fw" $0 | grep -o "[^ ]*.ipk.sh"` && uurl=`grep "#fw $fw" $0 | grep -o "[^ ]*/raw/release"`
 [ -z "$url" ] && auto_detect
 [ "$mode" == "1" ] && save_conf
 echo $dev $fw $dir $url | bin/tee tmp/plink.log

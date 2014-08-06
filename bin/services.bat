@@ -8,12 +8,13 @@ set bin=%bin:\=\\%
 if "%1"=="stop" if exist c:\olsrd-ipv4.lock del c:\olsrd-ipv4.lock
 if "%1"=="stop" for %%E in (%bin%tor %bin%DualServer %bin%DNS2SOCKS %bin%badvpn-tun2socks) do wmic process where ExecutablePath='%%E.exe' delete
 if "%1"=="stop" if not "%3"=="conn" for %%E in (%bin%git %bin%sh %bin%lua %bin%lua %bin%uci %bin%sleep %bin%sleep %bin%start-stop-daemon) do wmic process where ExecutablePath='%%E.exe' delete
-
-if "%3"=="conn" (
-  if not exist %meshr:/=\%\var\run\wifi.txt echo DHCPEnabled=TRUE>%meshr:/=\%\var\run\wifi.txt
-  call %meshr:/=\%\lib\setip.bat "%meshr:/=\%\var\run\wifi.txt" > %TEMP%\setip%random%.log
-  copy /y %meshr:/=\%\var\run\wifi.txt %meshr:/=\%\var\run\wifi2.txt
-  chmod 777 %meshr:/=\%\var\run\wifi.txt
-  del %meshr:/=\%\var\run\wifi.txt %meshr:/=\%\var\run\wifi-formed.txt
-)
-  
+if not "%3"=="conn" goto :EOF
+cd %~dp0..
+set meshr=%CD:\=/%
+set PATH=%PATH%;%CD%\bin
+if not exist %meshr:/=\%\var\run\wifi.txt echo DHCPEnabled=TRUE>%meshr:/=\%\var\run\wifi.txt
+call %meshr:/=\%\lib\setip.bat "%meshr:/=\%\var\run\wifi.txt" > tmp\setip2-%random%.log
+copy /y %meshr:/=\%\var\run\wifi.txt %meshr:/=\%\var\run\wifi2.txt
+copy /y tmp\setip2-* %TEMP%\
+chmod 777 %meshr:/=\%\var\run\wifi.txt
+del %meshr:/=\%\var\run\wifi.txt %meshr:/=\%\var\run\wifi-formed.txt

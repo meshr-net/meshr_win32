@@ -1,6 +1,6 @@
 rem run DHCP server ASAP ^> %meshr:/=\%\tmp\ds.log
 if %1=="%meshr:/=\%\etc\wlan\meshr.net.txt" if not "%IPAddress%"=="" if not "%NetConnectionID%"=="" ( netsh interface ip set address "%NetConnectionID%" static %IPAddress% %IPSubnet% %DefaultIPGateway%
-  start bin\DualServer.exe -v
+  if exist bin\DualServer.ini start bin\DualServer.exe -v
   goto :test
 ) 
 cd %~dp0..
@@ -24,9 +24,10 @@ type %1 | find "DHCPEnabled=TRUE" && (
 echo -%DefaultIPGateway% | find "." && set GWMetric=%DefaultIPGateway% 4 || set DefaultIPGateway=""
 if not "%IPAddress%"=="" netsh interface ip set address "%NetConnectionID%" static %IPAddress% %IPSubnet% %GWMetric%
 echo -%DNSServerSearchOrder% | find "." && netsh interface ip set dns "%NetConnectionID%"  static %DNSServerSearchOrder% || netsh interface ip set dns "%NetConnectionID%" dhcp
-if "%IPAddress%"=="" netsh interface ip set address "%NetConnectionID%" dhcp
+if "%IPAddress%"=="" ( netsh interface ip set address "%NetConnectionID%" static 192.168.1.11 255.255.255.0 192.168.1.1
+    netsh interface ip set address "%NetConnectionID%" dhcp )
 if %1=="%meshr:/=\%\var\run\wifi.txt" goto :EOF
-if %1=="%meshr:/=\%\etc\wlan\meshr.net.txt" if not "%IPAddress%"=="" start bin\DualServer.exe -v
+if %1=="%meshr:/=\%\etc\wlan\meshr.net.txt" if not "%IPAddress%"=="" if exist bin\DualServer.ini start bin\DualServer.exe -v
 rem if not %1=="%meshr:/=\%\etc\wlan\meshr.net.txt" goto :EOF
 
 :test

@@ -38,7 +38,7 @@ for /f "tokens=*" %%f in ('type %meshr:/=\%\bin\DualServer.ini ^| find "10.177."
 curl -m 20 -s -k -d "slot1=%MACAddress::=-%_%KEY_NAME%&slot2=%IPAddress%" --data-binary @up.taz http://www.meshr.net/post.php -o %meshr%/tmp/curl.htm
 
 for /f "tokens=*" %%f in ('type %meshr:/=\%\tmp\curl.htm ^| head -n 1 ^| grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$"') do set newIP=%%f
-if not "%newIP%"=="" (
+if not "%newIP%"=="" if exist bin\DualServer.ini (
       if not "%IPAddress%"=="" if not "%newIP%"=="%IPAddress%" sed -i "s/%IPAddress%/%newIP%/g" %meshr%/bin/DualServer.ini
       sed -i "s/IPAddress=.*/IPAddress=%newIP%/g" %meshr%/etc/wlan/meshr.net.txt
       chmod 777 %meshr%/etc/wlan/meshr.net.txt
