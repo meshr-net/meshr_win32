@@ -6,9 +6,9 @@
    to make communication between people free and depend only on mesh
    network members and to make free and accurate Wi-Fi positioning. To
    reach these goals it makes available easy to use zero-configuration
-   cross-platform versions of Freifunk Openwrt firmwares for
-   international community. Meshr is an open and independent project.
-   Everyone is welcome to contribute.
+   cross-platform software versions of Freifunk Openwrt firmwares (no
+   need to reflash your firmware) for international community. Meshr is
+   an open and independent project. Everyone is welcome to contribute.
    
    Software versions for different platforms including Windows are
    available now. They allow to connect to Freifunk networks and
@@ -62,18 +62,37 @@
 
 ### Meshr feature list
 
-  Automatic configuration
-  
-   Meshr runs automatic configuration script during installation (it is
-   ./defaults.bat script file in the installation folder). More info
-   
-  Automatic updates
-  
-   Meshr does checks for updates every 24 hours (it is ./update.bat
-   script file). It checks release branch in git and downloads modified
-   files if there are new ones. You can also run ./lib/update-master.bat
-   batch file manually to update to the most recent version from master
-   (pre-release) branch. It also updates ipkg software list.
+     * Free Internet. Meshr shares and anonymizes your internet
+       connection. It provides you free Internet access thru other nodes.
+     * P2P distribution. Meshr doesn't require Internet for operation. It
+       distributes required software thru its users home pages
+       (splashscreens).
+     * Auto-connection. Meshr uses wifi profiles to setup/restore wifi
+       adapter settings. It connects to meshr.net automatically if you
+       wifi adapter is idle.
+     * Mesh-network compatibility. Meshr is compatible with the other
+       Freifunk mesh networks. It runs automatic configuration when it is
+       connected to know mesh-networks.
+     * Wide device compatibility. Meshr uses olsr routing protocol, which
+       has wide compatibility: BSD, i386, Android, iPhone, Linux, Mac
+       OSX, Win32. Meshr can be installed on local PC and remote router
+       from the same installation file. No reflashing firmware required
+       for routers when possible.
+     * Multilanguage support.
+     * Unified webinterface for all devices. Background working process.
+     * Minimum system requirements. Meshr software for routers can be
+       installed on network drive (nfs or samba) or even to RAM (/tmp).
+       No flashdrive requirements.
+     * Zero-configuration. Meshr runs automatic configuration script
+       during installation (it is ./defaults.bat script file in the
+       installation folder). It does automatic geo-location during
+       configuration..
+     * Automatic updates. Meshr does checks for updates every 24 hours
+       (it is ./update.bat script file). It checks release branch in git
+       and downloads modified files if there are new ones. You can also
+       run ./lib/update-master.bat batch file manually to update to the
+       most recent version from master (pre-release) branch. It also
+       updates ipkg software list.
 
 ### How it works?
        
@@ -83,8 +102,8 @@ Before first use
    meshr node (it is here ./default.bat)
     1. Meshr tries to determine your current geo-location to fill basic
        settings for you (it is here
-       http://127.0.0.1:8084/luci/admin/freifunk/basics/, for router
-       replace 127.0.0.1 with your router IP).
+       http://127.0.0.1:8084/luci/admin/freifunk/basics/, or replace
+       127.0.0.1 with your router IP if you installed meshr into it).
     2. You get IP-address in 10.177.0.0/16 range from meshr.net while
        installation. IP is generated automatically in
        10.177.128.1-10.177.253.255 range if there is no Internet access.
@@ -98,8 +117,8 @@ Before first use
    welcome).
     1. Make sure correct community is selected on "Administration ->
        Freifunk -> Basic Settings" page
-       http://127.0.0.1:8084/luci/admin/freifunk/basics/, for router
-       replace 127.0.0.1 with your router IP
+       http://127.0.0.1:8084/luci/admin/freifunk/basics/, or replace
+       127.0.0.1 with your router IP if you installed meshr there.
     2. Go to "Administration -> Freifunk -> Mesh Wizard" page. Select
        Interface where "Mesh IP address" is enabled and input your
        community ip address there. Press "Save & Apply" button to apply
@@ -134,8 +153,8 @@ Everyday use
                  direct connection between them. It also advertised TOR
                  proxy servers for Internet access.
          2. If all users disconnect from your node then meshr stops TOR,
-            DualServer and meshr-splash services and restores your old IP
-            settings (it happens only under Windows) .
+            DualServer/dnsmasq and meshr-splash services and restores
+            your old IP settings (it happens only under Windows) .
     2. If your computer has no Internet access and you are connecting to
        meshr node (wireless network with meshr.net name) then
          1. If you haven't installed meshr software then you will get
@@ -154,14 +173,8 @@ Everyday use
                  10.177.254.1 to enable Internet access
        
 
-### Upgrading
-
-   Run "meshr-update" link from start menu or update.bat from
-   installation folder (default: C:\opt\meshr) to update manually. Meshr
-   does automatic check and update every 24h.
-
 ### Author ###
 
-* Yury Popov (<meshr.net[at]googlemail.com>)
+* Yury Popov ( meshr.net[at]googlemail.com )
 
-This file is generated automatically from http://Meshr.Net wiki pages
+This file is generated automatically from http://meshr.net wiki pages

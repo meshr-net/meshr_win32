@@ -11,10 +11,12 @@ Contents
                o 1.1.6 Other changes in 0.1
           + 1.2 Compatibility
           + 1.3 Upgrading
+               o 1.3.1 MS Windows
+               o 1.3.2 Routers, Modems, ...
           + 1.4 Online documentation
           + 1.5 Support
        
-                            Meshr 0.1 release notes
+                         Meshr 0.1 release notes
                                        
    Security reminder: Meshr requires Administrator privileges to install.
    
@@ -36,6 +38,8 @@ Meshr 0.1
        
   New features in 0.1
   
+     * Windows installer can install meshr to other platforms in external
+       devices via telnet
      * 4 windows services are installed during installation:
           + meshr - web server for main luci web interface, default url
             http://127.0.0.1:8084/ (it is %meshr%\lucid.bat, started
@@ -116,6 +120,22 @@ Upgrading
    Run "meshr-update" link from start menu or update.bat from
    installation folder (default: C:\opt\meshr) to update manually. Meshr
    does automatic check and update every 24h.
+     * Meshr does automatic check and update every 24h.
+     * update.bat is updating script. You can run it with "m" option, i.e
+       update.bat m, to update from master branch (it is the most recent
+       but unstable developer branch).
+       
+   Here is how you can update manually:
+   
+  MS Windows
+  
+   Run "meshr-update" link from start menu or update.bat from
+   installation folder (default: C:\opt\meshr) to update manually.
+   
+  Routers, Modems, ...
+  
+   Telnet to your device. Run $meshr/update.bat (replace $meshr with the
+   location where you installed meshr).
    
 Online documentation
 
